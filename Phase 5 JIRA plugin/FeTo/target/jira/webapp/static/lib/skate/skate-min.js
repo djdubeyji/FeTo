@@ -1,0 +1,1 @@
+define("jira/skate",["atlassian/libs/skate-0.12.6"],(function(t){function i(i,n){return t(i,n)}i.type=t.type||{CLASSNAME:t.types.CLASS,ELEMENT:t.types.TAG,ATTRIBUTE:t.types.ATTR};i.init=function(n){t.init(n);window.skate&&window.skate.init&&window.skate.init!==i.init&&window.skate.init(n);return n};return i}));

@@ -1,0 +1,7 @@
+#enable_html_escaping()
+<div id="addcomment" class="module#if($isStickyCommentEnabled) sticky#end" data-sticky-comment-enabled="${isStickyCommentEnabled}">
+    ${commentHtml}
+    #if($shouldAttachAddCommentEventHandler)
+        <jira-create-comment-form></jira-create-comment-form>
+    #end
+</div>

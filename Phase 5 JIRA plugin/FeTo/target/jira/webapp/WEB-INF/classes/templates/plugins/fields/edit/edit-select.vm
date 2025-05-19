@@ -1,0 +1,27 @@
+#disable_html_escaping()
+#customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+<select class="select cf-select" name="$customField.id" id="$customField.id">
+    #if (!$fieldLayoutItem || !$fieldLayoutItem.required)
+        <option value="-1">$i18n.getText("common.words.none")</option>
+    #else
+        #if (!$configs.default)
+        <option value="">$i18n.getText("common.words.none")</option>
+        #end
+    #end
+    #set ($hadSelectedOption = false)
+    #foreach ($option in $configs.options)
+        #if (!$option.disabled || ($value && $value == $option.optionId.toString()))
+            #set ($selected = "")
+            #if ($value && $value == $option.optionId)
+                #set ($hadSelectedOption = true)
+                #set ($selected = ' selected="selected"')
+            #end
+            <option$!{selected} value="$option.optionId">$cfValueEncoder.encodeForHtml($option.value)</option>
+        #end
+    #end
+    ## render option assigned to the issue (databaseOption) but not present in the relevant custom field context (configs.options)
+    #if ($databaseOption && !$hadSelectedOption)
+        <option selected="selected" value="$databaseOption.optionId">$i18n.getText("customfield.not.available.in.scheme", $cfValueEncoder.encodeForHtml($databaseOption.value))</option>
+    #end
+</select>
+#customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)

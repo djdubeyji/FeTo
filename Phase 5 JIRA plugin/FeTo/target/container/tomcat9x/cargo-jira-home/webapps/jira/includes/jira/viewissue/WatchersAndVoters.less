@@ -1,0 +1,17 @@
+@import 'webstatic:/ui/imports/colours';
+@import '../../../ui/variables';
+
+#view-voter-list,
+#view-watcher-list {
+    text-decoration: none;
+}
+
+#inline-dialog-watchers {
+    .recipients {
+        overflow-y: auto;
+        max-height: @issue-recipients-popup-scroll-height;
+    }
+    .aui-inline-dialog-contents {
+        padding: 0;
+    }
+}

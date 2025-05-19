@@ -1,0 +1,250 @@
+@import '../../imports/colours.less';
+
+/* The main calendar widget.  DIV containing a table. */
+.calendar {
+    z-index: 12001;
+}
+
+@bright-blue: #3572b0;
+
+.border-radius() {
+    border-radius: 3.01px; /* 3.01px for IE10 */
+    background-clip: padding-box;
+}
+
+/* JRADEV-17715 Setting this one higher than ajs-layer */
+div.calendar {
+    .border-radius();
+    background-color: #fff;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+    padding: 2px;
+    position: relative;
+}
+
+.calendar table {
+    cursor: default;
+    font-size: 12px;
+    border-bottom: 1px solid @aui-border-color;
+}
+
+.calendar table .wn {
+    background-color: @aui-color-faint;
+    color: #666;
+    padding: 2px 4px 2px 2px;
+}
+
+.calendar {
+    border: 1px solid @aui-border-color;
+
+    button {
+        border: 0;
+        background-color: #fff;
+        text-align: center;
+    }
+
+    th {
+        font-weight: 400;
+    }
+}
+
+/* buttons */
+/* "<<", "<", ">", ">>" buttons have this class */
+.calendar .calendar-header {
+    button {
+        padding: 4px 12px;
+        background: none;
+    }
+
+    .row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-row {
+        border-top: 1px solid @aui-border-color;
+        background: @aui-color-faint;
+    }
+
+    .title,
+    .go-today {
+        text-align: center;
+        flex-grow: 1;
+    }
+
+    .title {
+        outline: 0;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 4px 0;
+    }
+}
+
+.calendar .combobox-trigger {
+    position: relative;
+}
+
+.calendar .combobox-trigger::after {
+    content: "";
+    position: absolute;
+    right: 1px;
+    top: 50%;
+    width: 0;
+    height: 0;
+    margin-top: -2px;
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
+    border-top: 4px solid;
+    color: @aui-color-mid;
+}
+
+.calendar .daynames {
+    td {
+        background-color: @jira-color-active-link;
+        color: #fff;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    th.wn {
+        background-color: @aui-color-faint;
+        color: #888;
+    }
+}
+
+/* buttons hover */
+.calendar button:hover,
+.calendar td:not(.emptycell):hover,
+.calendar .combo .label:hover,
+.calendar td.time span:hover {
+    background-color: #ffe9a8;
+}
+
+.calendar .daysrow .emptycell + .day:hover,
+.calendar .daysrow .day + .day:hover {
+    .border-radius();
+    color: #333;
+    background-color: #ffe9a8;
+}
+
+.calendar .name.day:hover {
+    background-color: @bright-blue;
+    color: #fff;
+}
+
+/* active (pressed) buttons */
+.calendar button:active,
+.calendar .combo .active,
+.calendar td.time span:active {
+    background-color: @jira-color-active-link;
+    color: #fff;
+}
+
+/* Combo boxes (menus that display months/years for direct selection) */
+.calendar .combo {
+    background-color: #fff;
+    border: 1px solid @aui-border-color;
+    border-top: none;
+    cursor: default;
+    display: none;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 4em;
+    z-index: 100;
+}
+
+.calendar .combo .label {
+    text-align: center;
+    padding: 2px;
+    font-size: 12px;
+}
+
+/* The body part -- contains all the days in month. */
+.calendar tbody .day {
+    padding: 2px 4px 2px 2px;
+    text-align: right;
+    width: 2em;
+}
+
+.calendar tbody .emptycell + .day,
+.calendar tbody .day + .day {
+    .border-radius();
+}
+
+.calendar tbody .day.othermonth {
+    color: #999;
+}
+
+.calendar tbody .day.othermonth.oweekend {
+    color: #f99;
+}
+
+.calendar tbody td.today {
+    font-weight: 700;
+}
+
+.calendar tbody td.weekend {
+    color: @aui-color-status-error-background;
+}
+
+/* Cell showing selected date */
+.calendar tbody td.selected {
+    background-color: @bright-blue;
+    color: #fff;
+    font-weight: 700;
+}
+
+.calendar tbody .disabled {
+    color: #999;
+}
+
+.calendar tbody .emptyrow {
+    display: none;
+}
+
+/* time related */
+.calendar .time-row {
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    background-color: @aui-color-faint;
+    border-bottom: 1px solid @aui-border-color;
+    padding: 2px 14px;
+    text-align: center;
+
+    .time {
+        flex-grow: 1;
+    }
+
+    button {
+        font-weight: 700;
+        padding: 2px 5px 2px 6px;
+    }
+
+    .colon {
+        background-color: @aui-color-faint;
+        margin: 0 4px;
+    }
+}
+
+.calendar .actions-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px;
+    background-color: @aui-color-faint;
+    border-top: 1px solid @aui-border-color;
+
+    button {
+        padding: 4px 12px;
+    }
+}
+
+.calendar .ttip {
+    font-size: 12px;
+    text-align: center;
+    padding: 2px;
+}

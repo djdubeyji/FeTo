@@ -1,0 +1,1 @@
+define("jira/customfields/customfieldsSelectItemView",["jira/marionette-4.1"],(function(e){"use strict";return e.View.extend({type:"ITEM",ui:{option:".customfield-filter-dropdown-item"},triggers:{"click @ui.option":"option:selected"},template:JIRA.Templates.Admin.Customfields.selectDropdownItem})}));

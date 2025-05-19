@@ -1,0 +1,31 @@
+#disable_html_escaping()
+#if ($isFrotherControl) $!{auiparams.put("controlHeaderClass", "aui-field-multiselectpicker frother-control-renderer")} #end
+#customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+#if ($value)
+    #set ($selectedValues = $value)
+#end
+#set ($hadSelectedOption = false)
+<select class="select cf-select" id="$customField.id" multiple="multiple" name="$customField.id" size="5"
+		data-remove-null-options="true" data-submit-input-val="true" data-input-text="$textutils.htmlEncode($dataInputTextProvider.getInputText($value))">
+    #if (!$isFrotherControl && $fieldLayoutItem && !$fieldLayoutItem.required)
+        <option value="-1"#if (!$selectedValues || $selectedValues.empty || $selectedValues.contains("-1")) selected="selected"#end>${i18n.getText('common.words.none')}</option>
+    #end
+    #foreach ($option in $configs.options)
+        #if (!$option.disabled || ($selectedValues && $selectedValues.contains($option.optionId.toString())))
+            #set ($selected = "")
+            #if ($selectedValues && $selectedValues.contains($option.optionId.toString()))
+                #set ($hadSelectedOption = true)
+                #set ($selected = ' selected="selected"')
+            #end
+            <option$!{selected} value="$option.optionId">$cfValueEncoder.encodeForHtml($option.value)</option>
+        #end
+    #end
+    ## render options assigned to the issue (databaseOptions) but not present in the relevant custom field context (configs.options)
+    #if ($databaseOptions && !$hadSelectedOption)
+        #foreach ($option in $databaseOptions)
+            <option selected="selected" value="$option.optionId">$i18n.getText("customfield.not.available.in.scheme", $cfValueEncoder.encodeForHtml($option.value))</option>
+        #end
+    #end
+</select>
+#customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)
+#if ($isFrotherControl) $!{auiparams.clear()} #end

@@ -1,0 +1,94 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>FeTo Feedback</title>
+
+    <style>
+        .topic {
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .topic-title {
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .feedback-list {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .feedback-item {
+            margin-bottom: 5px;
+            padding: 6px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .hide-btn {
+            float: right;
+            color: red;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        #search-input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 6px;
+        }
+    </style>
+
+    <script>
+        function toggle(id) {
+            const el = document.getElementById(id);
+            el.style.display = el.style.display === "none" ? "block" : "none";
+        }
+
+        function hideFeedback(btn) {
+            const item = btn.closest(".feedback-item");
+            item.style.display = "none";
+        }
+
+        function filterFeedback() {
+            const query = document.getElementById("search-input").value.toLowerCase();
+            const feedbacks = document.querySelectorAll(".feedback-item");
+            feedbacks.forEach(fb => {
+                fb.style.display = fb.textContent.toLowerCase().includes(query) ? "block" : "none";
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <h3>Related Feedback</h3>
+
+    <input type="text" id="search-input" placeholder="Search feedback..." onkeyup="filterFeedback()" />
+
+    #if($topics.isEmpty())
+        <p>No related topics or feedback found for this requirement.</p>
+    #else
+        #foreach($topic in $topics)
+            <div class="topic">
+                <div class="topic-title" onclick="toggle('topic_$velocityCount')">
+                    $topic.topic
+                </div>
+                <div class="feedback-list" id="topic_$velocityCount">
+                    #foreach($fb in $topic.feedbackList)
+                        <div class="feedback-item">
+                            $fb
+                            <span class="hide-btn" onclick="hideFeedback(this)">Hide</span>
+                        </div>
+                    #end
+                </div>
+            </div>
+        #end
+    #end
+    $webResourceManager.requireResource("your.plugin.key:feto-resources")
+</body>
+</html>

@@ -1,0 +1,1 @@
+require(["jira/captcha","jquery"],(function(e,r){"use strict";r(e.setup)}));

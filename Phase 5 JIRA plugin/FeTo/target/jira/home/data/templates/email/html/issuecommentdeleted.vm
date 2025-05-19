@@ -1,0 +1,14 @@
+#* @vtlvariable name="originalcomment" type="com.atlassian.jira.issue.comments.Comment" *#
+#disable_html_escaping()
+
+#defaultMailHeader("email.event.activity.comment.deleted.on.issue", $changelogauthorLink)
+
+#set ($issueTitleBody="#parse('templates/email/html/includes/patterns/comment-title.vm')")
+#rowWrapperNormal($issueTitleBody)
+
+#parse('templates/email/html/includes/patterns/comment-top.vm')
+
+#set ($commentActionBody="#parse('templates/email/html/includes/patterns/comment-action.vm')")
+#rowWrapperNormal($commentActionBody)
+
+#parse("templates/email/html/includes/footer.vm")

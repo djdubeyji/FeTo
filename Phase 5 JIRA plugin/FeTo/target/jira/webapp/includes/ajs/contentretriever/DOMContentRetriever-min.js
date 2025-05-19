@@ -1,0 +1,1 @@
+define("jira/ajs/contentretriever/dom-content-retriever",["jira/ajs/contentretriever/content-retriever","jquery"],(function(e,t){"use strict";return e.extend({init:function(e){this.$content=t(e)},content:function(e){t.isFunction(e)&&e(this.$content);return this.$content}})}));AJS.namespace("AJS.DOMContentRetriever",null,require("jira/ajs/contentretriever/dom-content-retriever"));

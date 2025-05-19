@@ -1,0 +1,9 @@
+#disable_html_escaping()
+#if ($value)
+    #if ($openInNewWindow == true)
+        <a href="$textutils.htmlEncode($value)" target="_blank" rel="noopener noreferrer">$textutils.htmlEncode($value)</a>
+    #else
+        <a href="$textutils.htmlEncode($value)">$textutils.htmlEncode($value)</a>
+    #end
+#end
+

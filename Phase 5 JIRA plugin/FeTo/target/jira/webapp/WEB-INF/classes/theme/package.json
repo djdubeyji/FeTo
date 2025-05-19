@@ -1,0 +1,31 @@
+{
+  "name": "@atlassian/jira-theme",
+  "version": "0.1.0",
+  "description": "Provides Jira theme variables",
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "dist/jira-colors.less",
+  "publishConfig": {
+    "registry": "https://packages.atlassian.com/api/npm/atlassian-npm/"
+  },
+  "files": [
+    "dist"
+  ],
+  "author": "Atlassian Pty Ltd",
+  "maintainers": [
+    "Maciej Rzymski",
+    "Monsters"
+  ],
+  "scripts": {
+    "build": "mkdir -p dist && cp src/jira-colors.less dist/"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "react": "^16.8.6"
+  },
+  "keywords": [
+    "jiraui",
+    "colors",
+    "theme"
+  ]
+}

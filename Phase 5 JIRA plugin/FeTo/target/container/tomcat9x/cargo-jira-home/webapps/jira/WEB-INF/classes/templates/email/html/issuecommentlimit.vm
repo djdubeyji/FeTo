@@ -1,0 +1,15 @@
+#disable_html_escaping()
+#set ($pageTitle = $i18n.getText($headerI18nString, $event.issueKey))
+#set ($textParagraph = $i18n.getText($bodyI18nString, $event.issueKey, $threshold))
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/text-paragraph.vm')")
+
+#rowWrapperNormal("#parse('templates/email/html/includes/comment-limit-configuration.vm')")
+
+#rowWrapperNormal("#parse('templates/email/html/includes/comment-limit-event-details.vm')")
+
+#if ($event.commentBody)
+    #set ($commentContent = $event.commentBodyTruncated)
+    #rowWrapperNormal("#parse('templates/email/html/includes/comment-limit-content.vm')")
+#end
+
+#parse("templates/email/html/includes/footer.vm")

@@ -1,0 +1,1 @@
+!function(n){n.fn.hasFixedParent=function(){var i=!1;this.parents().each((function(){if("fixed"===n(this).css("position")){i=this;return!1}}));return i}}(jQuery);

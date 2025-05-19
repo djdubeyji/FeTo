@@ -1,0 +1,20 @@
+<html>
+<head><title>FeTo Project Settings</title></head>
+<body>
+<h2>FeTo Configuration for $project.name</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="projectKey" value="$project.key" />
+
+    <label><input type="checkbox" name="enabled"> Enable FeTo for this project</label><br><br>
+
+    <label>Upload Dataset T (Topics):</label>
+    <input type="file" name="topicsFile" accept=".csv"><br><br>
+
+    <label>Upload Dataset FT (Feedback):</label>
+    <input type="file" name="feedbackFile" accept=".csv"><br><br>
+
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

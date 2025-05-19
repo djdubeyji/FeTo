@@ -1,0 +1,86 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Requirement Feedback</title>
+
+    <style>
+        .feto-topic {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f4f4f4;
+        }
+
+        .feto-feedback {
+            margin-left: 20px;
+            padding: 5px 0;
+            display: none;
+        }
+
+        .topic-header {
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        #search-box {
+            width: 100%;
+            padding: 6px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+    </style>
+
+    <script>
+        function toggleFeedback(id) {
+            const content = document.getElementById(id);
+            content.style.display = content.style.display === "none" ? "block" : "none";
+        }
+
+        function filterFeedback() {
+            const query = document.getElementById("search-box").value.toLowerCase();
+            const topics = document.querySelectorAll(".feto-topic");
+
+            topics.forEach(topic => {
+                const feedbacks = topic.querySelectorAll(".feto-feedback");
+                let visible = false;
+
+                feedbacks.forEach(fb => {
+                    const text = fb.textContent.toLowerCase();
+                    const match = text.includes(query);
+                    fb.style.display = match ? "block" : "none";
+                    if (match) visible = true;
+                });
+
+                topic.style.display = visible || query === "" ? "block" : "none";
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <h2>Feedback Topics for Requirement ID: $requirementId</h2>
+
+    <input type="text" id="search-box" placeholder="Search feedback..." onkeyup="filterFeedback()" />
+
+    #foreach($topic in $topics)
+        <div class="feto-topic">
+            <div class="topic-header" onclick="toggleFeedback('feedback_$velocityCount')">
+                $topic.topic
+            </div>
+
+            <div class="feto-feedback" id="feedback_$velocityCount">
+                #foreach($fb in $topic.feedbackList)
+                    <div class="feedback-entry">$fb <a href="#" onclick="this.parentElement.style.display='none'; return false;" style="margin-left:10px; color:red; font-size: 12px;">Hide</a></div>
+                #end
+            </div>
+        </div>
+    #end
+    $webResourceManager.requireResource("your.plugin.key:feto-resources")
+</body>
+</html>

@@ -1,0 +1,38 @@
+#disable_html_escaping()
+#customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+#set ($user = $userutils.getUser($value))
+#if ($useFrotherControl)
+    <select class="single-user-picker js-default-user-picker has-addon-icon"
+            data-container-class="long-field"
+            data-show-dropdown-button="true"
+            data-no-aria-label="true"
+            data-has-popup-picker="$action.hasGlobalPermission("USER_PICKER")"
+            aria-hidden="true"
+            aria-labelledby="${customField.id}-single-select"
+        #if ($config.id) data-field-config-id="$config.id" #end
+        #if ($projectIdList) data-project-ids="#foreach($projectId in $projectIdList)$projectId,#end" #end
+            name="$customField.id"
+            id="$customField.id"
+        #if (!$canPerformAjaxSearch) data-disabled="true"#end
+    >
+        #if ($value)
+            <option selected="selected"
+                #if($user) style="background-image:url('#getAvatarURL($user)')"#end
+                    value="$textutils.htmlEncode($!value)">
+                $textutils.htmlEncode($user.displayName)
+            </option>
+        #end
+    </select>
+#else
+    <input type="text" name="$customField.id" id="$customField.id" value="$textutils.htmlEncode($!value)">
+#end
+#set ($imgTitle = $action.getText('user.picker.select.user'))
+#if($customField.name)
+    #set ($imgTitle =  $action.getText("user.picker.select.user.aria.label", $imgTitle, $customField.name))
+#end
+$soyRenderer.render('jira.webresources:field-templates', 'JIRA.Templates.Fields.Pickers.User.popupTrigger', {
+    "hasPermission": $action.hasGlobalPermission("USER_PICKER"),
+    "imgTitle":  "$imgTitle",
+    "noPermissionTitle": "$i18n.getText('user.picker.no.permission')"
+})
+#customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)

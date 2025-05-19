@@ -1,0 +1,1 @@
+define("jira/viewissue/slideshow/slideshow-configuration",["jira/ajs/keyboardshortcut/keyboard-shortcut-toggle","jquery"],(function(e,t){"use strict";var i={type:"image",centerOnScroll:!0,onStart:e.disable,onClosed:e.enable},n="elastic";return t.extend({},i,{transitionIn:n,transitionOut:n})}));

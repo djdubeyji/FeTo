@@ -1,0 +1,132 @@
+@import 'webstatic:/ui/imports/colours';
+
+.shifter-dialog {
+    position: fixed;
+    left: 50%;
+    width: 400px;
+    margin-left: -200px;
+    z-index: 4000;
+    border: none;
+    background: white;
+    box-shadow: 0 8px 16px -4px @aui-color-N50A, 0 0 1px @aui-color-N60A;
+    overflow: hidden;
+
+    form.aui {
+        .queryable-select {
+            max-width: none;
+            padding: 15px;
+            .icon {
+                display: none;
+                position: absolute;
+                &.aui-iconfont-remove {
+                    color: @aui-color-N200;
+                    display: block;
+                    top: 22px;
+                    right: 22px;
+                    cursor: pointer;
+                }
+                &.loading {
+                    display: block;
+                    top: 2px;
+                    right: 15px;
+                }
+            }
+            input {
+                max-width: none;
+            }
+        }
+    }
+
+    .aui-list {
+        .aui-list-scroll {
+            max-height: 300px;
+            overflow: auto;
+            padding: 5px 0;
+            background: white;
+            border-top: 2px solid @aui-color-N30;
+        }
+        h5,
+        .aui-list-item-link,
+        .aui-list-item-message {
+            padding: 7px 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: @aui-color-N600;
+        }
+        .aui-list-item-aui-message {
+            margin-left: 15px;
+            margin-right: 15px;
+            margin-bottom: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .aui-list-item-link {
+            cursor: pointer;
+        }
+        .aui-list-item.active {
+            background-color: @aui-color-N30;
+            color: @aui-color-N600;
+        }
+        .aui-list-item-message {
+            display: block;
+            font-style: italic;
+            white-space: normal;
+        }
+        .shifter-group-heading {
+            border-top: 1px solid @aui-color-N40;
+            padding-top: 3px;
+            display: flex;
+            justify-content: space-between;
+            &:first-of-type {
+                border-top: none;
+            }
+            h5 {
+                color: @aui-color-N200;
+                font-size: 11px;
+                font-weight: 600;
+                line-height: 1.45454545;
+                letter-spacing: 0;
+                text-transform: uppercase;
+                padding: 5px 15px;
+            }
+            .shifter-group-context {
+                padding: 5px 15px;
+                font-weight: 600;
+                font-size: 11px;
+                line-height: 1.45454545;
+                color: @aui-color-N200;
+            }
+        }
+        .no-suggestions {
+            text-align: center;
+        }
+        .aui-item-suffix {
+            color: @aui-color-N200;
+        }
+    }
+
+    &.loading-action {
+        input {
+            background: transparent;
+            border-color: transparent;
+            outline: none;
+        }
+    }
+
+    .hint-container {
+        padding: 7px 15px;
+        border-top: 2px solid @aui-color-N30;
+        font-size: 12px;
+        color: @aui-color-N200;
+        kbd {
+            vertical-align: middle;
+            line-height: 14px;
+            font-size: 12px;
+            min-width: 1.5em;
+            position: relative;
+            top: -1px;
+        }
+    }
+}

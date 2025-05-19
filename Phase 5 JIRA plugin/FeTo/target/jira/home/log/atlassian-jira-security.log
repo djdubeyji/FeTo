@@ -1,0 +1,9 @@
+2025-04-12 19:42:34,436+0200 Catalina-utility-1      Jira 9.12.2 build: 9120002 started. You can now access Jira through your web browser. Plugins and caches are being initialised.
+2025-04-12 19:42:43,490+0200 http-nio-2990-exec-12 url: /jira/plugins/servlet/upm   -   HttpSession created [1shwky]
+2025-04-12 19:42:49,634+0200 http-nio-2990-exec-12 url: /jira/osd.jsp anonymous 1182x652x6 - 0:0:0:0:0:0:0:1 /osd.jsp HttpSession created [lk98pp]
+2025-04-12 19:42:55,979+0200 http-nio-2990-exec-19 url: /jira/login.jsp anonymous 1182x673x1 1shwky 0:0:0:0:0:0:0:1 /login.jsp HttpSession [1shwky] destroyed for 'anonymous'
+2025-04-12 19:42:55,980+0200 http-nio-2990-exec-19 url: /jira/login.jsp anonymous 1182x673x1 1shwky 0:0:0:0:0:0:0:1 /login.jsp HttpSession created [a0y7cz]
+2025-04-12 19:42:56,001+0200 http-nio-2990-exec-19 url: /jira/login.jsp admin 1182x673x1 1shwky 0:0:0:0:0:0:0:1 /login.jsp The user 'admin' has PASSED authentication.
+2025-04-12 19:43:03,640+0200 http-nio-2990-exec-12 url: /jira/osd.jsp anonymous 1183x1553x3 - 0:0:0:0:0:0:0:1 /osd.jsp HttpSession created [c3fnyh]
+2025-04-12 19:44:29,370+0200 Catalina-utility-2      HttpSession [c3fnyh] destroyed for 'anonymous'
+2025-04-12 19:44:29,372+0200 Catalina-utility-2      HttpSession [lk98pp] destroyed for 'anonymous'

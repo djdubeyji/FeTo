@@ -1,0 +1,1 @@
+!function(){"use strict";var r=null;define("jira/shifter",["jira/shifter/shifter-controller"],(function(e){null===r&&(r=new e("shifter-dialog"));return r}))}();AJS.namespace("JIRA.Shifter",null,require("jira/shifter"));

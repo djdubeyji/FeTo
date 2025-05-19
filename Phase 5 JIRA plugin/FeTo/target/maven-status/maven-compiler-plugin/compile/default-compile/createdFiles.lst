@@ -1,0 +1,9 @@
+com/atlassian/tutorial/feto/web/RequirementPanelServlet.class
+com/atlassian/tutorial/feto/impl/MyPluginComponentImpl.class
+com/atlassian/tutorial/feto/model/TopicEntity.class
+com/atlassian/tutorial/feto/api/MyPluginComponent.class
+com/atlassian/tutorial/feto/web/ProjectSettingsServlet.class
+com/atlassian/tutorial/feto/model/FeedbackEntity.class
+com/atlassian/tutorial/feto/FetoEntityModule.class
+com/atlassian/tutorial/feto/model/TopicWithFeedback.class
+com/atlassian/tutorial/feto/support/QueryDslSupport.class

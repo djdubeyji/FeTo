@@ -1,0 +1,13 @@
+{
+  "main.css": "johnson-page/static/css/main.css",
+  "main.js": "johnson-page/static/js/main.js",
+  "main.css.map": "johnson-page/static/css/main.css.map",
+  "main.js.map": "johnson-page/static/js/main.js.map",
+  "eot": "johnson-page/63b18acfbbb0e998259928cee2983c05.eot",
+  "ttf": "johnson-page/4f9f32b5b6c91ef9d5424d9ad878e516.ttf",
+  "woff": "johnson-page/f550ee1296d1bdd386f3a2b66164103e.woff",
+  "6fc513d1.svg": "johnson-page/d0a59e275ed5c287ed77a7443738f070.svg",
+  "38fc0723.svg": "johnson-page/fad4b944b5b53d23b205f75c5e92e5d1.svg",
+  "fav-jira.ico": "johnson-page/fav-jira.ico",
+  "johnson-error-page.jsp": "johnson-page/johnson-error-page.jsp"
+}

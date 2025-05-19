@@ -1,0 +1,39 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+    </plugin-info>
+
+    <resource type="i18n" name="i18n" location="FeTo"/>
+
+    <web-resource key="FeTo-resources" name="FeTo Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <resource type="download" name="FeTo.css" location="/css/FeTo.css"/>
+        <resource type="download" name="FeTo.js" location="/js/FeTo.js"/>
+        <resource type="download" name="images/" location="/images"/>
+        <context>FeTo</context>
+    </web-resource>
+
+    <servlet name="FeTo Project Settings" key="feto-project-settings"
+             class="com.atlassian.tutorial.feto.web.ProjectSettingsServlet">
+        <description>FeTo Configuration Page</description>
+        <url-pattern>/plugins/servlet/feto/settings</url-pattern>
+    </servlet>
+
+    <web-panel key="feto-project-settings-tab" location="atl.jira.proj.config" weight="100">
+        <description>FeTo Config Panel</description>
+        <context-provider class="com.atlassian.jira.plugin.webfragment.contextproviders.ProjectContextProvider"/>
+        <resource type="velocity" name="view" location="/templates/project-settings/feto-config.vm"/>
+    </web-panel>
+
+    <web-panel key="feto-requirement-panel"
+               location="atl.jira.view.issue.right.context"
+               weight="200"
+               name="FeTo Requirement Feedback">
+        <resource type="velocity" name="view" location="templates/requirement-panel.vm"/>
+        <context-provider class="com.feto.plugin.context.RequirementContextProvider"/>
+    </web-panel>
+</atlassian-plugin>

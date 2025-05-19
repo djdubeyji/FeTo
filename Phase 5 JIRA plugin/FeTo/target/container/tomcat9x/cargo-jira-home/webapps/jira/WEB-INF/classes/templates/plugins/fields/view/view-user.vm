@@ -1,0 +1,14 @@
+#disable_html_escaping()
+#if ($value)
+    #if ($displayParameters && $displayParameters.nolink)
+        $textutils.htmlEncode($value.displayName)
+    #else
+        #set ($avatarURL = $avatarServiceHelper.renderURL($authcontext.getLoggedInUser(), $value, $avatarSize))
+        $soyRenderer.render("com.atlassian.auiplugin:soy", "aui.avatar.avatar", {
+            "avatarImageUrl": "$avatarURL",
+            "size": "small",
+            "accessibilityText" : $value.displayName
+        })
+        <span class="tinylink">$userformat.formatUserkey($value.key, 'fullNameHover', "user_cf")</span>
+    #end
+#end

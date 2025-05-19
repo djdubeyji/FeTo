@@ -1,0 +1,1 @@
+require(["jira/license-banner","wrm/context-path"],(function(n,e){"use strict";var r=e();fetch(r+"/rest/internal/1.0/licensebanner/markup").then((function(n){return n.json()})).then((function(e){n.showLicenseBanner(e.bannerMarkup);n.showLicenseFlag(e.flagMarkup)})).catch((function(n){return console.error("There was an error during the fetching of licence markups.",n)}))}));
