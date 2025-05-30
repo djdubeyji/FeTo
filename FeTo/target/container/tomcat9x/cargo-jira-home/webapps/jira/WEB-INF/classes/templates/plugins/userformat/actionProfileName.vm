@@ -1,0 +1,11 @@
+#disable_html_escaping()
+#if ($username)
+    #if($user)
+        #set($author = $textutils.htmlEncode($fullname))
+    #else
+        #set($author = $textutils.htmlEncode($username))
+    #end
+#else
+    #set($author = $defaultFullName)
+#end
+${author}

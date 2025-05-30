@@ -1,0 +1,82 @@
+#disable_html_escaping()
+#if ($!displayParameters.get('theme') && $!displayParameters.get('theme') == 'aui')
+    $!auiparams.put("controlHeaderType", "radio")
+    $!auiparams.put("fieldsetClass", "group")
+    $!{auiparams.put("labelledId", ${customField.id})}
+    $!auiparams.put("noLabel", "true")
+    #AUIformFieldsetHeader ($customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+    #set ($hadAnyValidOptions = false)
+    #set ($hadSelectedOption = false)
+
+    #if (!$fieldLayoutItem || !$fieldLayoutItem.required)
+        #set ($hadAnyValidOptions = true)
+        #set ($checked = "")
+        #customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+            #if (!$value || $value.equals("-1"))
+                #set ($checked = ' checked="checked"')
+                #set ($hadSelectedOption = true)
+            #end
+            <input$!{checked} class="radio" id="cf-${customField.id}" name="${customField.id}" type="radio" value="-1" />
+            <label for="cf-${customField.id}">$i18n.getText('AUI.form.label.none')</label>
+            #set ($footerFieldId = "cf-${customField.id}")
+        #customControlFooter ($action $footerFieldId '' $displayParameters $auiparams)
+    #end
+    #foreach ($option in $configs.options)
+        #if (!$option.disabled || ($value && $value == $option.optionId))
+            #set ($hadAnyValidOptions = true)
+            #customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+                #set ($checked = '')
+                #if ($value && $value == $option.optionId)
+                    #set ($checked = ' checked="checked"')
+                    #set ($hadSelectedOption = true)
+                #end
+                <input$!{checked} class="radio" id="${customField.id}-${velocityCount}" name="${customField.id}" type="radio" value="$option.optionId" />
+                <label for="${customField.id}-${velocityCount}">$cfValueEncoder.encodeForHtml($option.value)</label>
+                #set ($footerFieldId = "${customField.id}-${velocityCount}")
+            #customControlFooter ($action $footerFieldId '' $displayParameters $auiparams)
+        #end
+    #end
+    ## render option assigned to the issue (databaseOption) but not present in the relevant custom field context (configs.options)
+    #if ($databaseOption && !$hadSelectedOption)
+        #set ($hadAnyValidOptions = true)
+        #set ($elementId = $configs.options.size() + 1)
+        #customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+        <input checked="checked" class="radio" id="${customField.id}-${elementId}" name="${customField.id}" type="radio" value="$databaseOption.optionId" />
+        <label for="${customField.id}-${elementId}">$i18n.getText("customfield.not.available.in.scheme", $cfValueEncoder.encodeForHtml($databaseOption.value))</label>
+        #set ($footerFieldId = "${customField.id}-${elementId}")
+        #customControlFooter ($action $footerFieldId '' $displayParameters $auiparams)
+    #end
+    #if (!$hadAnyValidOptions)
+        #customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+            <input checked="checked" class="radio" id="cf-${customField.id}-none" name="${customField.id}" type="radio" value="-1" />
+            <label for="cf-${customField.id}-none">$i18n.getText('AUI.form.label.none')</label>
+            #set ($footerFieldId = "cf-${customField.id}-none")
+        #customControlFooter ($action $footerFieldId '' $displayParameters $auiparams)
+    #end
+    #AUIformFieldsetFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)
+#else
+    #customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+        #set ($hadAnyValidOptions = false)
+        #if (!$fieldLayoutItem || !$fieldLayoutItem.required)
+            #set ($hadAnyValidOptions = true)
+            #set ($checked = "")
+            #if (!$value || $value.equals("-1")) #set ($checked = ' checked="checked"' ) #end
+            <input$!{checked} id="cf-${customField.id}" name="${customField.id}" type="radio" value="-1" />
+            <label for="cf-${customField.id}">None</label>
+            #if ($configs.options.size() > 0)<br />#end
+        #end
+        #foreach ($option in $configs.options)
+            #if (!$option.disabled || ($value && $value == $option.optionId))
+                #set ($hadAnyValidOptions = true)
+                #if ($value && $value == $option.optionId)) #set ($checked = ' checked="checked"') #else #set ($checked = '') #end
+                <input$!{checked} class="radio" id="${customField.id}-${velocityCount}" name="${customField.id}" type="radio" value="$option.optionId" />
+                <label for="${customField.id}-${velocityCount}">$cfValueEncoder.encodeForHtml($option.value)</label>
+                #if ($velocityCount != $configs.options.size())<br />#end
+            #end
+        #end
+        #if (!$hadAnyValidOptions)
+            <input checked="checked" class="radio" id="cf-${customField.id}-none" name="${customField.id}" type="radio" value="-1" />
+            <label for="cf-${customField.id}-none">$i18n.getText('AUI.form.label.none')</label>
+        #end
+    #customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)
+#end

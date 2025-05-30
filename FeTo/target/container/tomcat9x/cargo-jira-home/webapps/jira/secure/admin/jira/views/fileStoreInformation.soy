@@ -1,0 +1,51 @@
+{namespace JIRA.Templates.Admin.Jira.FileStoreInformation}
+
+/**
+ * Displays information about the given file store. This is defined in the FileStoreProvider.
+ *
+ * @param? heading     an optional title
+ * @param  information an array of lines to display
+ */
+{template .fileStoreInformation}
+    {if $heading}
+        <strong>{$heading}</strong>{if length($information) > 0}<br/>{/if}
+    {/if}
+    {if $information and length($information) > 0}
+        {foreach $line in $information}
+            {if $heading and not isFirst($line)}<br/>{/if}{$line}
+        {/foreach}
+    {/if}
+{/template}
+
+/**
+ * The fieldset for enabling/disabling attachments in the edit attachments settings dialog
+ *
+ * @param  enabled     true if attachments are enabled
+ * @param? heading     an optional title
+ * @param  information an array of lines to display
+ */
+{template .enableAttachmentsFieldset}
+    <fieldset id="enable-attachments-fieldset" class="group" aria-labelledby="enable-attachments-fieldset-label">
+        <div id="enable-attachments-fieldset-label">
+            <span>{getText('admin.attachmentsettings.attachment.enabled')}</span>
+        </div>
+        <div class="enable-attachments-fieldset-control">
+            <div class="radios">
+                <div class="radio">
+                    <input class="radio" {if $enabled}checked="checked"{/if} id="edit-attachments-attachments-enabled" name="attachmentsEnabled" type="radio" value="true">
+                    <span class="aui-form-glyph"></span>
+                    <label for="edit-attachments-attachments-enabled">{getText('admin.common.words.on')}</label>
+                    <div class="description"><em></em></div>
+                </div>
+                <div class="radio">
+                    <input class="radio" {if not $enabled}checked="checked"{/if} id="edit-attachments-attachments-disabled" name="attachmentsEnabled" type="radio" value="false">
+                    <span class="aui-form-glyph"></span>
+                    <label for="edit-attachments-attachments-disabled">{getText('admin.common.words.off')}</label>
+                </div>
+            </div>
+            <div class="location">
+                {call .fileStoreInformation data="all"/}
+            </div>
+        </div>
+    </fieldset>
+{/template}

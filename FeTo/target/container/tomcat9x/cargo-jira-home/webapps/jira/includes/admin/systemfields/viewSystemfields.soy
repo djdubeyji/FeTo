@@ -1,0 +1,94 @@
+{namespace JIRA.Templates.Admin.Systemfields}
+
+/**
+ * System fields page template
+ * @param systemFields
+ */
+{template .systemfieldsPage}
+    {call aui.page.document}
+        {param windowTitle: getText('admin.menu.issuefields.system.fields') /}
+        {param headContent}
+            <meta name="admin.active.section" content="admin_issues_menu/element_options_section/fields_section" />
+            <meta name="admin.active.tab" content="view_system_fields" />
+        {/param}
+        {param content}
+            {call JIRA.Templates.Headers.pageHeader}
+                {param mainContent}
+                    <h2>{getText('admin.menu.issuefields.system.fields')}</h2>
+                {/param}
+            {/call}
+            <p>{getText('admin.issuefields.systemfields.description')} <a href="{helpUrl('systemfields.config')}">{getText('admin.issuefields.systemfields.learnmore')}</a></p>
+            <table id="system-fields-table" class="aui">
+                <thead>
+                    {call .sytemFieldsTableHeaderRow /}
+                </thead>
+                <tbody>
+                    {foreach $systemField in $systemFields}
+                        {call .sytemFieldsTableRow}
+                            {param systemField: $systemField /}
+                        {/call}
+                    {/foreach}
+                </tbody>
+            </table>
+            <div id="screen-list-dialog-container"></div>
+            <div id="context-list-dialog-container"></div>
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * System field table header row
+ */
+{template .sytemFieldsTableHeaderRow}
+    <tr>
+        <th class="systemfield-name">{getText('common.words.name')}</th>
+        <th class="systemfield-contexts">{getText('admin.issuefields.available.contexts')}</th>
+        <th class="systemfield-screens">{getText('admin.issuefields.screens')}</th>
+        <th class="systemfield-actions">{getText('common.words.actions')}</th>
+    </tr>
+{/template}
+
+/**
+ * System field table row
+ * @param systemField {id, name, editable, contextsCount?, screensCount?}
+ */
+{template .sytemFieldsTableRow}
+    <tr data-system-field-id="{$systemField.id}" data-system-field-name="{$systemField.name}">
+        <td><strong>{$systemField.name}</strong></td>
+        <td>
+            {if $systemField.contextsCount != null}
+                {if $systemField.configurable}
+                    <button class="context-list-link aui-button aui-button-link" data-field-id="{$systemField.id}" data-field-name="{$systemField.name}">{getText('admin.issuefields.customfields.contexts.conditional', $systemField.contextsCount)}</button>
+                {else}
+                    {getText('admin.issuefields.customfields.contexts.conditional', $systemField.contextsCount)}
+                {/if}
+            {else}
+                -
+            {/if}
+        </td>
+        <td>
+            {if $systemField.screensCount != null}
+                <button class="screen-list-link aui-button aui-button-link" data-field-id="{$systemField.id}" data-field-name="{$systemField.name}" data-is-field-configurable="{$systemField.configurable}">{getText('admin.issuefields.customfields.screens.conditional', $systemField.screensCount)}</button>
+            {else}
+                -
+            {/if}
+        </td>
+        <td>
+            <button class="aui-button aui-dropdown2-trigger aui-dropdown2-trigger-arrowless aui-button-compact"
+                    aria-controls="{$systemField.id}-actions-dropdown">
+                <span class="aui-icon aui-icon-small aui-iconfont-more">{getText('common.words.actions')}</span>
+            </button>
+            <aui-dropdown-menu id="{$systemField.id}-actions-dropdown">
+                {if $systemField.configurable}
+                    <aui-item-link class="edit-contexts-link"
+                            href="{contextPath()}/secure/admin/ConfigureField.jspa?fieldId={$systemField.id}&selectedTab=contexts">{getText('admin.issuefields.config.tab.contexts')}</aui-item-link>
+                    <aui-item-link class="edit-screens-link"
+                                   href="{contextPath()}/secure/admin/ConfigureField.jspa?fieldId={$systemField.id}&selectedTab=screens">{getText('admin.issuefields.screens')}</aui-item-link>
+                {else}
+                    <aui-item-link class="edit-screens-link"
+                                   href="{contextPath()}/secure/admin/AssociateFieldToScreens!default.jspa?fieldId={$systemField.id}&returnUrl=ViewSystemFields.jspa">{getText('admin.issuefields.screens')}</aui-item-link>
+                {/if}
+            </aui-dropdown-menu>
+        </td>
+    </tr>
+{/template}

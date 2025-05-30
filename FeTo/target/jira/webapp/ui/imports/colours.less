@@ -1,0 +1,358 @@
+//
+// Use the following import statement in your LESS file:
+//  @import 'webstatic:/ui/imports/colours';
+//
+
+//
+// below mixin defines default values for @spectrum* variables when
+//  they aren't provided by the environment (for any reason)
+.set-spectrum-variables-default() {
+    // @deprecated @spectrum is always true for Jira7.10+ and it'll be removed
+    @spectrum: true;
+    // @deprecated @spectrum-m1b is always true since Jira8+ and it'll be removed
+    @spectrum-m1b: true;
+    // @deprecated @spectrum-m2 is not used and it'll be removed
+    @spectrum-m2: false;
+    // @deprecated @spectrum-m3 is not used and it'll be removed
+    @spectrum-m3: false;
+}
+.set-spectrum-variables-default();
+
+//
+// Common variables for ADGS
+// Design spec: https://atlassian.design/server/foundations/colors/
+//
+// (!) Do not put at the top level those variables that you want to override.
+//     Use mixins for that.
+//     LESS variables defined inside mixins are not injected into the calling
+//     context when they are already defined there.
+//
+
+//
+// ADGS variables (Spectrum project in Jira)
+//
+.jiraui-adgs() {
+    @aui-color-atlassian: @aui-color-B200;
+    @aui-color-hero: @aui-color-B500;
+    @aui-color-focus: @aui-color-B300;
+    @aui-color-link: @aui-color-B400;
+    @aui-color-page: @aui-color-N0;
+    @aui-color-faint: @aui-color-N20;
+    @aui-color-gray: @aui-color-N80;
+    @aui-color-mid: @aui-color-N200;
+    @aui-color-text: @aui-color-N800;
+    @aui-color-highlight-primary: @aui-color-N20;
+    @aui-color-highlight-secondary: @aui-color-N30;
+    @aui-color-yellow: @aui-color-Y300;
+    @aui-color-red: @aui-color-R400;
+    @aui-color-white: @aui-color-N0;
+    @aui-color-orange: @aui-color-Y500;
+    @aui-color-lime-green: #60A222;
+
+    @aui-hint-info: @aui-color-P300;
+
+    @aui-color-selection-background: @aui-color-B50;
+    @aui-border-color: @aui-color-N50;
+
+    // Primary - listed in the order of the design diagram
+    @aui-color-blue: @aui-color-B200;
+    @aui-color-bright-blue: @aui-color-B500;
+    @aui-color-green: @aui-color-G400;
+
+    @aui-color-pale-blue: @aui-color-B50;
+    @aui-color-charcoal: @aui-color-N800;
+    @aui-color-light-gray: @aui-color-N20;
+
+    // Secondary - listed in the order of the design diagram
+    @aui-color-ash-gray: @aui-color-N40A;
+    @aui-color-silver: #e9e9e9;
+    @aui-color-brown: #8D542E;
+    @aui-color-blue-gray: @aui-color-N400;
+
+    // Derivatives
+    @aui-color-pale-blue-border: #ccd9ea;
+
+    // Agile's Epics' labels
+    @aui-color-epic-color-bright: #fff;
+    @aui-color-epic-color-dark: @aui-color-N800;
+
+    @aui-color-epic-0-background: @aui-color-mid;
+    @aui-color-epic-0-border: @aui-color-mid;
+
+    @aui-color-epic-1-background: @aui-color-brown;
+    @aui-color-epic-1-border: @aui-color-brown;
+    @aui-color-epic-2-background: @aui-color-orange;
+    @aui-color-epic-2-border: @aui-color-orange;
+    @aui-color-epic-3-background: @aui-color-Y200;
+    @aui-color-epic-3-border: @aui-color-Y200;
+    @aui-color-epic-4-background: @aui-color-B500;
+    @aui-color-epic-4-border: @aui-color-B500;
+    @aui-color-epic-5-background: @aui-color-N700;
+    @aui-color-epic-5-border: @aui-color-N700;
+    @aui-color-epic-6-background: @aui-color-G200;
+    @aui-color-epic-6-border: @aui-color-G200;
+    @aui-color-epic-7-background: #B93D9E;
+    @aui-color-epic-7-border: #B93D9E;
+    @aui-color-epic-8-background: @aui-color-P400;
+    @aui-color-epic-8-border: @aui-color-P400;
+    @aui-color-epic-9-background: @aui-color-R100;
+    @aui-color-epic-9-border: @aui-color-R100;
+    @aui-color-epic-10-background: @aui-color-B300;
+    @aui-color-epic-10-border: @aui-color-B300;
+    @aui-color-epic-11-background: #008299;
+    @aui-color-epic-11-border: #008299;
+    @aui-color-epic-12-background: @aui-color-N300;
+    @aui-color-epic-12-border: @aui-color-N300;
+    @aui-color-epic-13-background: @aui-color-G400;
+    @aui-color-epic-13-border: @aui-color-G400;
+    @aui-color-epic-14-background: @aui-color-R400;
+    @aui-color-epic-14-border: @aui-color-R400;
+
+    // Lozenges and badges
+    @lozenges-subtle-opacity: 40%;
+
+    // default
+    // - this is the style for a lozenge that has not been defined as a specific type
+    @aui-color-status-default-background: @aui-color-N40A;
+    @aui-color-status-default-border: @aui-color-status-default-background;
+    @aui-color-status-default-foreground: @aui-color-N800;
+    // subtle version
+    @aui-color-status-default-background-subtle: @aui-color-N0;
+    @aui-color-status-default-border-subtle: @aui-color-status-default-background;
+    @aui-color-status-default-foreground-subtle: @aui-color-status-default-foreground;
+
+    // success
+    // - items in a completed or modified state eg a Done issue in JIRA
+    @aui-color-status-success-background: @aui-color-G400;
+    @aui-color-status-success-border: @aui-color-status-success-background;
+    @aui-color-status-success-foreground: @aui-color-N0;
+    // subtle version
+    @aui-color-status-success-background-subtle: @aui-color-N0;
+    @aui-color-status-success-border-subtle: fade(@aui-color-status-success-background, @lozenges-subtle-opacity);
+    @aui-color-status-success-foreground-subtle: @aui-color-status-success-background;
+
+    // error
+    // - items with problems or that have been removed
+    @aui-color-status-error-background: @aui-color-R400;
+    @aui-color-status-error-border: @aui-color-status-error-background;
+    @aui-color-status-error-foreground: @aui-color-N0;
+    // subtle version
+    @aui-color-status-error-background-subtle: @aui-color-N0;
+    @aui-color-status-error-border-subtle: fade(@aui-color-status-error-background, @lozenges-subtle-opacity);
+    @aui-color-status-error-foreground-subtle: @aui-color-status-error-background;
+
+    // current
+    // - items being worked on eg an In Progress issue in JIRA
+    @aui-color-status-current-background: @aui-color-B400;
+    @aui-color-status-current-border: @aui-color-status-current-background;
+    @aui-color-status-current-foreground: @aui-color-N0;
+    // subtle version
+    @aui-color-status-current-background-subtle: @aui-color-N0;
+    @aui-color-status-current-border-subtle: fade(@aui-color-status-current-background, @lozenges-subtle-opacity);
+    @aui-color-status-current-foreground-subtle: @aui-color-status-current-background;
+
+    // complete / New
+    // - items in a starting state eg a New issue in JIRA
+    @aui-color-status-complete-background: @aui-color-P400;
+    @aui-color-status-complete-border: @aui-color-status-complete-background;
+    @aui-color-status-complete-foreground: @aui-color-N0;
+    // subtle version
+    @aui-color-status-complete-background-subtle: @aui-color-N0;
+    @aui-color-status-complete-border-subtle: fade(@aui-color-status-complete-background, @lozenges-subtle-opacity);
+    @aui-color-status-complete-foreground-subtle: @aui-color-status-complete-background;
+
+    // moved
+    // - items that have been moved
+    @aui-color-status-moved-background: @aui-color-Y300;
+    @aui-color-status-moved-border: @aui-color-status-moved-background;
+    @aui-color-status-moved-foreground: @aui-color-N700;
+    // subtle version
+    @aui-color-status-moved-background-subtle: @aui-color-N0;
+    @aui-color-status-moved-border-subtle: fade(@aui-color-status-current-background, @lozenges-subtle-opacity);
+    @aui-color-status-moved-foreground-subtle: @aui-color-status-moved-foreground;
+
+    // Standard typography colors
+    @jira-color-subtle-text: @aui-color-N300;
+    // Look and feel:
+    @jira-color-headings: @aui-color-N900;
+    @jira-color-active-link: @aui-color-B300;
+
+    // Dropdown colors
+    // Look and feel:
+    @jira-dropdown-heading-color: @aui-color-N300;
+
+    // Page nav colors
+    @jira-pagenav-menuitem-background-color: transparent;
+    @jira-pagenav-menuitem-background-focus-color: @aui-color-N30;
+    @jira-pagenav-menuitem-background-selected-color: transparent;
+    @jira-pagenav-menuitem-text-selected-color: @aui-color-N500;
+    @jira-pagenav-divider-color: @aui-color-N40;
+    @jira-pagenav-heading-color: @aui-color-N200;
+
+    // Look and feel:
+    @jira-pagenav-menuitem-background-active-color: @aui-color-B50;
+    @jira-pagenav-menuitem-text-active-color: @aui-color-N500;
+    @jira-pagenav-menuitem-text-color: @aui-color-N500;
+    @jira-pagenav-menuitem-text-focus-color: @aui-color-N500;
+
+    @aui-border-radius: 3px;
+
+    // Standard typography colors
+    @jira-color-text: @aui-color-text;
+    @jira-color-selection-background: @aui-color-selection-background;
+    @jira-color-link: @aui-color-link;
+
+    // Dropdown colors
+    @jira-dropdown-menuitem-background-color: transparent;
+    @jira-dropdown-menuitem-text-color: @jira-color-text;
+    @jira-dropdown-menuitem-background-disabled-color: transparent;
+    @jira-dropdown-menuitem-text-disabled-color: lighten(@jira-dropdown-menuitem-text-color, 50%);
+    @jira-dropdown-background-color: @aui-color-page;
+    @jira-dropdown-divider-color: @aui-border-color;
+    @jira-dropdown-shadow-color: rgba(111, 111, 111, 0.2);
+
+    // Look and feel:
+    @jira-dropdown-menuitem-background-focus-color: @aui-color-focus;
+    @jira-dropdown-menuitem-text-focus-color: @aui-color-N0;
+    @jira-lozenge-labs-color: @aui-color-lime-green;
+
+    @jira-item-hover: @aui-color-N40;
+    @jira-item-selected: @aui-color-B50;
+
+    @jira-table-row-hover: @jira-item-hover;
+    @jira-table-column-sortable: darken(@aui-color-N50, 50%);
+
+    @aui-color-modal: @aui-color-N40;
+
+    @jira-inline-hover-bg: @aui-color-N70;
+    @jira-inline-hover-text: @aui-color-N700;
+    @jira-inline-active-bg: @aui-color-N40;
+    @jira-inline-active-text: @aui-color-N800;
+    @jira-inline-active-outline: @aui-color-B100;
+
+    @jira-status-todo: @aui-color-N500;
+    @jira-status-inprogress: @aui-color-B400;
+    @jira-status-done: @aui-color-G400;
+
+    @jira-status-todo-text: @aui-color-page;
+    @jira-status-inprogress-text: @aui-color-page;
+    @jira-status-done-text: @aui-color-page;
+}
+
+// below mixin defines default values for LnF variables
+.jiraui-set-lookandfeel-defaults() {
+    @menuTxtColour: @aui-color-N0;
+    @menuBackgroundColour: @aui-color-focus;
+}
+
+// ADGS colors (https://atlassian.design/server/foundations/colors/)
+// Reds
+@aui-color-R50: #FFEBE5; // AK original was #FFEBE6
+@aui-color-R75: #FFBDAD;
+@aui-color-R100: #FF8F73;
+@aui-color-R200: #FF7452;
+@aui-color-R300: #FF5630;
+@aui-color-R400: #DE350B;
+@aui-color-R500: #BF2600;
+
+// Yellows
+@aui-color-Y50: #FFFAE5; // AK original was #FFFAE6
+@aui-color-Y75: #FFF0B2; // AK original was #FFF0B3
+@aui-color-Y100: #FFE380;
+@aui-color-Y200: #FFC400;
+@aui-color-Y300: #FFAB00;
+@aui-color-Y400: #FF991F;
+@aui-color-Y500: #FF8B00;
+
+// Greens
+@aui-color-G50: #E3FCEF;
+@aui-color-G75: #ACF5D2; // AK original was #ABF5D1
+@aui-color-G100: #79F2C0;
+@aui-color-G200: #57D9A3;
+@aui-color-G300: #36B37E;
+@aui-color-G400: #00875A;
+@aui-color-G500: #006644;
+
+// Blues
+@aui-color-B50: #DEEBFF;
+@aui-color-B75: #B3D4FF;
+@aui-color-B100: #4C9AFF;
+@aui-color-B200: #2684FF;
+@aui-color-B300: #0065FF;
+@aui-color-B400: #0052CC;
+@aui-color-B500: #0747A6;
+
+// Purples
+@aui-color-P50: #EAE6FF;
+@aui-color-P75: #C0B6F2;
+@aui-color-P100: #998DD9;
+@aui-color-P200: #8777D9;
+@aui-color-P300: #6554C0;
+@aui-color-P400: #5243AA;
+@aui-color-P500: #403294;
+
+// Teals
+@aui-color-T50: #E6FCFF;
+@aui-color-T75: #B3F5FF;
+@aui-color-T100: #79E2F2;
+@aui-color-T200: #00C7E6;
+@aui-color-T300: #00B8D9;
+@aui-color-T400: #00A3BF;
+@aui-color-T500: #008DA6;
+
+// Neutrals
+@aui-color-N0: #FFFFFF;
+@aui-color-N10: #FAFBFC;
+@aui-color-N20: #F4F5F7;
+@aui-color-N30: #EBECF0;
+@aui-color-N40: #DFE1E5; // AK original was #DFE1E6
+@aui-color-N50: #C1C7D0;
+@aui-color-N60: #B3BAC5;
+@aui-color-N70: #A5ADBA;
+@aui-color-N80: #97A0AF;
+@aui-color-N90: #8993A4;
+@aui-color-N100: #7A869A;
+@aui-color-N200: #6B778C;
+@aui-color-N300: #5E6C84;
+@aui-color-N400: #505F79;
+@aui-color-N500: #42526E;
+@aui-color-N600: #344563;
+@aui-color-N700: #253858;
+@aui-color-N800: #172B4D;
+@aui-color-N900: #091E42;
+
+@aui-color-N10A: rgba(9, 30, 66, 0.02);
+@aui-color-N20A: rgba(9, 30, 66, 0.04);
+@aui-color-N30A: rgba(9, 30, 66, 0.08);
+@aui-color-N40A: rgba(9, 30, 66, 0.13);
+@aui-color-N50A: rgba(9, 30, 66, 0.25);
+@aui-color-N60A: rgba(9, 30, 66, 0.31);
+@aui-color-N70A: rgba(9, 30, 66, 0.36);
+@aui-color-N80A: rgba(9, 30, 66, 0.42);
+@aui-color-N90A: rgba(9, 30, 66, 0.48);
+@aui-color-N100A: rgba(9, 30, 66, 0.54);
+@aui-color-N200A: rgba(9, 30, 66, 0.6);
+@aui-color-N300A: rgba(9, 30, 66, 0.66);
+@aui-color-N400A: rgba(9, 30, 66, 0.71);
+@aui-color-N500A: rgba(9, 30, 66, 0.77);
+@aui-color-N600A: rgba(9, 30, 66, 0.82);
+@aui-color-N700A: rgba(9, 30, 66, 0.89);
+@aui-color-N800A: rgba(9, 30, 66, 0.95);
+
+// Primary color palette
+@aui-color-primary1: @aui-color-N800;
+@aui-color-primary2: @aui-color-B400; // AK original was B500
+@aui-color-primary3: @aui-color-N0;
+
+// Secondary color palette
+@aui-color-secondary1: @aui-color-R300;
+@aui-color-secondary2: @aui-color-Y300;
+@aui-color-secondary3: @aui-color-G300;
+@aui-color-secondary4: @aui-color-P300;
+@aui-color-secondary5: @aui-color-T300;
+
+//
+// calling mixins
+//
+.jiraui-adgs();
+.jiraui-set-lookandfeel-defaults();

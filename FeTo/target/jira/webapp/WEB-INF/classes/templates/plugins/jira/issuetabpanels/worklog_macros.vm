@@ -1,0 +1,31 @@
+#* @vtlvariable name="action" type="com.atlassian.jira.issue.tabpanels.WorklogAction" *#
+
+#macro (worklogDetailsBody $worklog $i18n $dateFormatter $action)
+    #if ($worklog.groupLevel)
+        #set ($level = $textutils.htmlEncode($worklog.groupLevel))
+    #elseif ($worklog.roleLevel)
+        #set ($level = $textutils.htmlEncode($worklog.roleLevel.name))
+    #end
+
+    #if(!$worklog.created.equals($worklog.updated))
+        #set ($formattedUpdateDate = "$textutils.htmlEncode($dateFormatter.format(${worklog.updated}))")
+        #if ($worklog.updateAuthor)
+            #set ($quote = '"')
+            #if ($worklog.updateAuthorFullName)
+                #set ($updateInfo = "$textutils.htmlEncode($worklog.updateAuthorFullName) - $formattedUpdateDate")
+            #else
+                #set ($updateInfo = "$worklog.updateAuthor - $formattedUpdateDate")
+            #end
+        #else
+            #set ($updateInfo = "$i18n.getText('common.words.anonymous') - $formattedUpdateDate")
+        #end
+    #end
+
+    #set ($startDateToolTip = "$i18n.getText('viewissue.worklog.created', $dateFormatter.format(${worklog.created}))")
+        #set ($startDate = " - <span title='$textutils.htmlEncode($startDateToolTip)' class=subText><span data-datetime='${action.startDateIso8601Html}' class=date>${action.startDateHtml}</span></span>")
+
+    #if ($level)
+        #set ($visibilityLevel = "<span class='icon-default aui-icon aui-icon-small aui-iconfont-locked'></span><span class=subText>$i18n.getText('viewissue.worklog.visibleby') <span class=redText>$level</span></span>")
+    #end
+    $i18n.getText('issue.tabpanels.worklog.action.header', $userformats.forType('profileLinkActionHeader').format($worklog.authorKey, "worklogauthor_${worklog.id}"), $startDate) #if($visibilityLevel) - $visibilityLevel #end #if($updateInfo) - <span class="redText subText" title="$updateInfo">$i18n.getText('common.concepts.edited')</span> #end
+#end

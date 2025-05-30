@@ -1,0 +1,40 @@
+{namespace JIRA.Templates.Terminology}
+
+/**
+ *
+ * This template renders the help dialog for terminology feature. It is triggered from the Jira header "help" dropdown
+ * @param modifiedTerms
+ */
+{template .help}
+    <form class="aui">
+        <div class="jira-dialog-heading">
+            <h2>{getText('jira.terminology.help.label')}</h2>
+        </div>
+        <div class="form-body">
+            <p class="heading-text">{getText('jira.terminology.help.dialog.heading')}</p>
+            <ul>
+                {foreach $term in $modifiedTerms}
+                    <li>
+                        <span class="terminology-term capitalize">{$term?.originalName}s</span>
+                        {sp}{getText('jira.terminology.help.dialog.to')}{sp}
+                        <span class="terminology-term">{$term?.newNamePlural}</span>
+                    </li>
+                {/foreach}
+            </ul>
+            <div class="footer-text">
+                <p>{getText('jira.terminology.help.dialog.footer.first')}</p>
+                <p>{getText('jira.terminology.help.dialog.footer.second')}
+                    {sp}<a href="{helpUrl('terminology.learn.more')}">{getText('jira.terminology.help.learn.more')}</a>
+                </p>
+            </div>
+        </div>
+        <div class="buttons-container form-footer">
+            <div class="buttons">
+                <button class="aui-button aui-button-link cancel">{getText('admin.common.words.ok')}</button>
+            </div>
+            <p class="hint-container overflow-ellipsis">
+                <button class="aui-button aui-button-link" id="terminology-dismiss-btn">{getText('jira.terminology.onboarding.dismiss.text')}</button>
+            </p>
+        </div>
+    </form>
+{/template}

@@ -1,0 +1,31 @@
+{namespace JIRA.Templates.JQLAutoComplete}
+
+/**
+ *
+ * This template renders terminology hint in advanced JQL autocomplete when a single terminology term match results.
+ * @param originalNamePlural original plural name of the matched term
+ * @param newNamePlural new plural name of the matched term
+ */
+{template .terminologyHintSingle}
+    <div class="syntax-help-container terminology-help-container">
+        <p class="syntax-help">
+            <span>{getText('jira.terminology.jqlautocomplete.hint.single', $originalNamePlural, $newNamePlural)}</span>
+            {sp}<a class="aui-button aui-button-link" href="{helpUrl('terminology.learn.more')}">{getText('common.concepts.learn.more')}</a>
+        </p>
+    </div>
+{/template}
+
+/**
+ *
+ * This template renders terminology hint in advanced JQL autocomplete when both terms are present in results.
+ * @param sprintNewName new plural name for sprint
+ * @param epicNewName new plural name for epic
+ */
+{template .terminologyHintMultiple}
+    <div class="syntax-help-container terminology-help-container">
+        <p class="syntax-help">
+            <span>{getText('jira.terminology.jqlautocomplete.hint.multiple', $sprintNewName, $epicNewName)}</span>
+            {sp}<a class="aui-button aui-button-link" href="{helpUrl('terminology.learn.more')}">{getText('common.concepts.learn.more')}</a>
+        </p>
+    </div>
+{/template}

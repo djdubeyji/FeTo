@@ -1,0 +1,51 @@
+2025-05-31T00:26:01,646 INFO - Import started by admin using com.atlassian.jira.plugins.importer.sample.SampleDataBean
+2025-05-31T00:26:01,651 INFO - ------------------------------
+2025-05-31T00:26:01,651 INFO - Importing: Users
+2025-05-31T00:26:01,651 INFO - ------------------------------
+2025-05-31T00:26:01,651 INFO - Only new items will be imported
+2025-05-31T00:26:01,651 INFO - 0 users associated with import. All of them imported as inactive, this can be changed after import in User Access step.
+2025-05-31T00:26:01,651 INFO - ------------------------------
+2025-05-31T00:26:01,651 INFO - Finished Importing : Users
+2025-05-31T00:26:01,651 INFO - ------------------------------
+2025-05-31T00:26:01,651 INFO - 0 users successfully created.
+2025-05-31T00:26:01,651 INFO - Retrieving projects...
+2025-05-31T00:26:01,652 INFO - Project ExternalProject{id='null', key='FERE', externalName='FeReRe', name='FeReRe'} exists and found correctly.
+2025-05-31T00:26:01,652 INFO - ------------------------------
+2025-05-31T00:26:01,652 INFO - Importing: Versions
+2025-05-31T00:26:01,652 INFO - ------------------------------
+2025-05-31T00:26:01,652 INFO - Only new items will be imported
+2025-05-31T00:26:01,652 INFO - ------------------------------
+2025-05-31T00:26:01,652 INFO - Finished Importing : Versions
+2025-05-31T00:26:01,652 INFO - ------------------------------
+2025-05-31T00:26:01,652 INFO - ------------------------------
+2025-05-31T00:26:01,652 INFO - Importing: Components
+2025-05-31T00:26:01,652 INFO - ------------------------------
+2025-05-31T00:26:01,652 INFO - Only new items will be imported
+2025-05-31T00:26:01,652 INFO - ------------------------------
+2025-05-31T00:26:01,652 INFO - Finished Importing : Components
+2025-05-31T00:26:01,652 INFO - ------------------------------
+2025-05-31T00:26:01,652 INFO - Retrieving custom fields...
+2025-05-31T00:26:01,652 INFO - ------------------------------
+2025-05-31T00:26:01,652 INFO - Importing: Issues
+2025-05-31T00:26:01,652 INFO - ------------------------------
+2025-05-31T00:26:01,652 INFO - Only new items will be imported
+2025-05-31T00:26:01,652 INFO - Importing issue: [externalId='null', summary='This is your first task']
+2025-05-31T00:26:01,937 INFO - Importing issue: [externalId='null', summary='Workflows and statuses']
+2025-05-31T00:26:01,951 INFO - Importing issue: [externalId='null', summary='Editing tasks']
+2025-05-31T00:26:01,970 INFO - Importing issue: [externalId='null', summary='Searching for information']
+2025-05-31T00:26:01,978 INFO - Importing issue: [externalId='null', summary='Keyboard shortcuts']
+2025-05-31T00:26:01,992 INFO - Importing issue: [externalId='null', summary='What's next?']
+2025-05-31T00:26:02,004 INFO - Reindexing last 6 issues imported ...
+2025-05-31T00:26:02,044 INFO - Reindexing took 38 ms.
+2025-05-31T00:26:02,044 INFO - 6 issues successfully created
+2025-05-31T00:26:02,044 INFO - ------------------------------
+2025-05-31T00:26:02,044 INFO - Finished Importing : Issues
+2025-05-31T00:26:02,044 INFO - ------------------------------
+2025-05-31T00:26:02,045 INFO - ------------------------------
+2025-05-31T00:26:02,045 INFO - Importing: Issue Links & Subtasks
+2025-05-31T00:26:02,045 INFO - ------------------------------
+2025-05-31T00:26:02,045 INFO - Only new items will be imported
+2025-05-31T00:26:02,045 INFO - ------------------------------
+2025-05-31T00:26:02,045 INFO - Finished Importing : Issue Links & Subtasks
+2025-05-31T00:26:02,045 INFO - ------------------------------
+2025-05-31T00:26:02,045 INFO - No issues need to be reindexed.

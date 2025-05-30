@@ -1,0 +1,22 @@
+@import "../imports/aui-colours";
+
+.jira-sortable-table {
+    thead {
+        .sortable {
+            cursor: pointer;
+        }
+
+        .sortable:hover {
+            background-color: @aui-color-faint;
+        }
+
+        .active {
+            color: @aui-color-N300;
+            background-color: @aui-color-faint;
+
+            &:hover {
+                background-color: @aui-color-highlight-secondary;
+            }
+        }
+    }
+}

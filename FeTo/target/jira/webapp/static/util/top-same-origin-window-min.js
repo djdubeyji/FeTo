@@ -1,0 +1,1 @@
+define("jira/util/top-same-origin-window",(function(){"use strict";return function(n){var r,t=n;function e(n){try{if(null==n.location.href)return!1}catch(n){return!1}return!0}function i(n){return Boolean(n.AJS)}for(;!(r=n,r===r.parent)&&e(n.parent);)i(n=n.parent)&&(t=n);return t}}));

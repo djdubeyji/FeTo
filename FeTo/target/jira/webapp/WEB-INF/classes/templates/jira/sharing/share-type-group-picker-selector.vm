@@ -1,0 +1,9 @@
+#disable_html_escaping()
+<img src="${baseurl}/images/icons/hierarchy_arrow.gif" alt="$i18n.getText('common.words.arrow')" width="10px" height="10px"/>
+<select aria-label="$i18n.getText("common.sharing.shared.description.group")"
+        id="groupShare"
+        name="groupShare"
+        class="single-group-picker js-default-single-group-picker aui-ss-select group-share"
+        style="display: none;">
+    <option data-placeholder="true">$i18n.getText('sharefilter.select.group')</option>
+</select>

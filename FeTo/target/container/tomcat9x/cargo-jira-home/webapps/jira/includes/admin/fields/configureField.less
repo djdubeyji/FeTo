@@ -1,0 +1,74 @@
+.configure-field {
+    .configure-field-back-navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .configure-field-header-description {
+        margin-bottom: 24px;
+    }
+
+    .configure-field-tabs {
+        margin-top: 25px;
+    }
+
+    .context-controls {
+        display: flex;
+        margin-top: 8px;
+        margin-bottom: 40px;
+    }
+
+    .context-controls :first-child {
+        flex-grow: 1;
+    }
+
+    .context-tooltip {
+        margin-left: 5px;
+    }
+
+    table {
+        margin-bottom: 23px;
+
+        td.name-cell .description,
+        td.description-cell button {
+            font-size: 12px;
+        }
+
+        td.description-cell,
+        td.default-value-cell {
+            word-break: break-word;
+        }
+
+        th.name-header,
+        th.default-value-header {
+            width: 30%;
+        }
+
+        th.actions-header {
+            width: 50px;
+        }
+
+        .collapsed-content {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .config-scheme-default-value ~ span > button {
+            margin-left: 0; // Safari adds a margin to the Atlaskit button
+        }
+    }
+
+    .screens-summary-message {
+        margin-top: 8px;
+        margin-bottom: 40px;
+        .field-name {
+            font-weight: bold;
+            text-transform: lowercase;
+        }
+    }
+}

@@ -1,0 +1,58 @@
+{namespace JIRA.Templates.FlushAppHeaderEarly}
+
+/**
+ * Provides js logic that updates page's title.
+ * @param title title to be set, should be already escaped for JS
+ */
+{template .titleProvider}
+<script>
+    document.title = "{$title|noAutoescape}";
+    document.getElementById("open-search-description-link").setAttribute("title", "{$title|noAutoescape}");
+</script>
+{/template}
+
+/**
+ * Provides js logic that updates page's body tag classes.
+ * @param bodyClasses comma-separated list of css classes to be set on body tag
+ */
+{template .bodyClassesProvider}
+{if $bodyClasses}
+    <script>document.body.classList.add({$bodyClasses|noAutoescape});</script>
+{/if}
+{/template}
+
+/**
+ * Provides js logic that updates page's head tag content. It also removes the existing title element.
+ * @param headTagContent content of parsed page's head tag that will be injected into real head tag
+ * @param executionIdx unique number for each invocation of the template that allows to make sure template element id doesn't get duplicated
+ */
+{template .headTagContentProvider}
+{if $headTagContent}
+    <template id="head-content-tmp-{$executionIdx}">
+        {$headTagContent|noAutoescape}
+    </template>
+    <script>
+        {literal}
+        (function(executionIdx) {
+            const template = document.getElementById("head-content-tmp-" + executionIdx);
+            const nodes = document.adoptNode(template.content);
+            // browsers can set 'async=true' flag for script tags, we need to fix that
+            Array.from(nodes.children).filter(node => node.nodeName === 'SCRIPT').forEach(node => node.async = false);
+            document.head.appendChild(nodes);
+            template.remove();
+        }) {/literal} ({$executionIdx});
+    </script>
+{/if}
+{/template}
+
+/**
+ * Provides js logic that updates page's body element attributes.
+ * @param bodyAttributes attributes to be added to the body element
+ */
+{template .bodyAttributesProvider}
+    <script>
+    {foreach $bodyAttribute in $bodyAttributes}
+        document.body.setAttribute("{$bodyAttribute.key}","{$bodyAttribute.value}");
+    {/foreach}
+    </script>
+{/template}

@@ -1,0 +1,1 @@
+define("jira/featureflags/feature-manager",["wrm/data","exports"],(function(a,e){"use strict";var r=a.claim("jira.core:feature-flags-data.feature-flag-data"),t=r&&r["feature-flag-states"]||{},f=r&&r["enabled-feature-keys"]||[];e.isFeatureEnabled=function(a){return t.hasOwnProperty(a)?t[a]:(e=a,-1!==f.indexOf(e));var e}}));

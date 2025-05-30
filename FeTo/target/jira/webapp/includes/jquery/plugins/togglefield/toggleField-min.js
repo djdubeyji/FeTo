@@ -1,0 +1,1 @@
+!function(e){e.fn.toggleField=function(n){var t=this,r=(n=e(n),function(){n.prop("disabled",function(){if(!1===t.prop("checked")){t.parent().addClass("disabled");return!0}t.parent().removeClass("disabled");return!1}());return arguments.callee}());e(document[this.attr("name")]).click(r).change(r);return this}}(jQuery);

@@ -1,0 +1,18 @@
+{namespace JIRA.Templates.IssuePicker}
+
+/**
+* @param popupLinkMessage
+*/
+{template .popupLink}
+    <div class='issue-picker-popup'>
+        {call aui.buttons.button}
+            {param type: 'subtle' /}
+            {param text: '' /}
+            {param extraClasses: ['aui-button-compact'] /}
+            {param iconType: 'aui' /}
+            {param iconClass: 'aui-icon-small aui-iconfont-add' /}
+            {param iconText: $popupLinkMessage /}
+            {param extraAttributes: ['title': $popupLinkMessage, 'type': 'button']/}
+        {/call}
+    </div>
+{/template}

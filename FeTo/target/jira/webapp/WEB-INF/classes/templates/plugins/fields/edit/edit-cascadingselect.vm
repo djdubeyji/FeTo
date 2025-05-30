@@ -1,0 +1,54 @@
+#disable_html_escaping()
+#if (!$request || !$request.getAttribute("cascade"))
+    $!request.setAttribute("cascade" , "true")
+#end
+#if ($value.getValuesForNullKey() && !$value.getValuesForNullKey().empty)
+    #set ($selectedParent = $value.getValuesForNullKey().iterator().next())
+#end
+#if ($value.getValuesForKey('1') && !$value.getValuesForKey('1').empty)
+    #set ($selectedChild = $value.getValuesForKey('1').iterator().next())
+#end
+$!{auiparams.put("controlHeaderClass", "aui-field-cascadingselect")}
+$!{auiparams.put("controlHeaderRole", "group")}
+#customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+    <select class="select cascadingselect-parent" id="${customField.id}" name="${customField.id}">
+        <option class="default-option" value="">$i18n.getText("common.words.none")</option>
+        #set ($hadSelectedParentOption = false)
+        #foreach ($option in $configs.options.rootOptions)
+            #set ($extraAttrs = "")
+            #if ($selectedParent && $selectedParent == $option.optionId)
+                #set ($hadSelectedParentOption = true)
+                #set ($extraAttrs = ' selected="selected"')
+            #end
+            #if (!$option.disabled || ($selectedParent && $selectedParent == $option.optionId))
+                <option class="option-group-$option.optionId" value="$option.optionId"$extraAttrs>$cfValueEncoder.encodeForHtml($option.value)</option>
+            #end
+        #end
+        ## render parent option assigned to the issue (databaseParent) but not present in the relevant custom field context (configs.options.rootOptions)
+        #if ($databaseParent && !$hadSelectedParentOption)
+            <option class="option-group-$databaseParent.optionId" value="$databaseParent.optionId" selected="selected">$i18n.getText("customfield.not.available.in.scheme", $cfValueEncoder.encodeForHtml($databaseParent.value))</option>
+        #end
+    </select>
+    <select class="select cascadingselect-child" id="${customField.id}:1" name="${customField.id}:1" aria-labelledby="${customField.id}">
+        <option class="default-option" value="">$i18n.getText("common.words.none")</option>
+        #set ($hadSelectedChildOption = false)
+        #foreach ($parentOption in $configs.options.rootOptions)
+            <option class="option-group-$parentOption.optionId" value="">$i18n.getText("common.words.none")</option>
+            #foreach ($childOption in $parentOption.childOptions)
+                #set ($extraAttrs = "")
+                #if ($selectedChild && $selectedChild == $childOption.optionId)
+                    #set ($hadSelectedChildOption = true)
+                    #set ($extraAttrs = ' selected="selected"')
+                #end
+                #if (!$childOption.disabled || ($selectedChild && $selectedChild == $childOption.optionId))
+                    <option class="option-group-$parentOption.optionId" value="$childOption.optionId"$extraAttrs>$cfValueEncoder.encodeForHtml($childOption.value)</option>
+                #end
+            #end
+        #end
+        ## render child option assigned to the issue (databaseChild) but not present in the relevant custom field context
+        #if ($databaseChild && !$hadSelectedChildOption)
+            <option class="option-group-$databaseParent.optionId" value="$databaseChild.optionId" selected="selected">$i18n.getText("customfield.not.available.in.scheme", $cfValueEncoder.encodeForHtml($databaseChild.value))</option>
+        #end
+    </select>
+#customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)
+$!{auiparams.clear()}

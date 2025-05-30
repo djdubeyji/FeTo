@@ -1,0 +1,10 @@
+{
+  "js/FeTo-min.js" : {
+    "declarations" : [ "pom.xml" ],
+    "manifest" : "META-INF/fe-module-manifests/package.json"
+  },
+  "js/FeTo.js" : {
+    "declarations" : [ "pom.xml" ],
+    "manifest" : "META-INF/fe-module-manifests/package.json"
+  }
+}
