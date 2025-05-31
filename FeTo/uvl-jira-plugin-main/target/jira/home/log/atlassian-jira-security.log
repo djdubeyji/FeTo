@@ -1,0 +1,10 @@
+2025-05-31 11:40:27,493+0200 main      Jira 9.12.2 build: 9120002 started. You can now access Jira through your web browser. Plugins and caches are being initialised.
+2025-05-31 11:42:11,628+0200 http-nio-2990-exec-8 url: /jira/, /jira/secure/MyJiraHome.jspa anonymous 702x3x1 - 0:0:0:0:0:0:0:1 / HttpSession created [pqh5ab]
+2025-05-31 11:42:16,303+0200 http-nio-2990-exec-3 url: /jira/osd.jsp anonymous 702x1556x3 - 0:0:0:0:0:0:0:1 /osd.jsp HttpSession created [1ow6iy8]
+2025-05-31 11:42:18,880+0200 http-nio-2990-exec-9 url: /jira/rest/gadget/1.0/login anonymous 702x1574x1 pqh5ab 0:0:0:0:0:0:0:1 /rest/gadget/1.0/login HttpSession [pqh5ab] destroyed for 'anonymous'
+2025-05-31 11:42:18,880+0200 http-nio-2990-exec-9 url: /jira/rest/gadget/1.0/login anonymous 702x1574x1 pqh5ab 0:0:0:0:0:0:0:1 /rest/gadget/1.0/login HttpSession created [142eo2v]
+2025-05-31 11:42:18,891+0200 http-nio-2990-exec-9 url: /jira/rest/gadget/1.0/login admin 702x1574x1 pqh5ab 0:0:0:0:0:0:0:1 /rest/gadget/1.0/login The user 'admin' has PASSED authentication.
+2025-05-31 11:42:25,585+0200 http-nio-2990-exec-9 url: /jira/osd.jsp anonymous 702x2327x3 - 0:0:0:0:0:0:0:1 /osd.jsp HttpSession created [1u7r3mb]
+2025-05-31 11:42:44,367+0200 http-nio-2990-exec-10 url: /jira/osd.jsp anonymous 702x3704x6 - 0:0:0:0:0:0:0:1 /osd.jsp HttpSession created [1uisi5f]
+2025-05-31 11:42:45,431+0200 http-nio-2990-exec-9 url: /jira/rest/api/2/issue/FER-1/properties/feedbackDat_1 anonymous 702x3718x4 - 127.0.0.1 /rest/api/2/issue/FER-1/properties/feedbackDat_1 HttpSession created [1afb65f]
+2025-05-31 11:42:45,435+0200 http-nio-2990-exec-9 url: /jira/rest/api/2/issue/FER-1/properties/feedbackDat_1 admin 702x3718x4 - 127.0.0.1 /rest/api/2/issue/FER-1/properties/feedbackDat_1 The user 'admin' has PASSED authentication.
