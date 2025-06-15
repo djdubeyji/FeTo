@@ -1,1 +1,0 @@
-require(["jira/common/header","wrm/require-lazily","jquery"],(function(e,i,r){"use strict";r((function(){e.initialize();setTimeout((function(){i("wrc!jira.webresources:header-dimensions")}),5e3)}))}));

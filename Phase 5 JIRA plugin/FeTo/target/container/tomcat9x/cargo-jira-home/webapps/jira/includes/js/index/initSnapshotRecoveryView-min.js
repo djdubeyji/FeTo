@@ -1,1 +1,0 @@
-require(["jira/util/init-on-dcl","jira/index/snapshot-recovery-view"],(function(i,n){"use strict";i((function(){new n}))}));

@@ -1,1 +1,0 @@
-require(["jquery","jira/flag"],(function(e,i){"use strict";e((function(){if(/invalidPermissionSchemeRequested=\d+/.test(location.search)){i.showWarningMsg("",JIRA.Templates.ViewPermissionSchemes.invalidPermissionSchemeNotification(),{close:"manual"});history.replaceState&&history.replaceState(null,null,location.pathname)}}))}));

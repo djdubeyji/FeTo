@@ -1,1 +1,0 @@
-define("jira/jquery/plugins/escapeSelector",["jira/polyfill/escapeCSSSelector","jquery"],(function(e,r){r.escapeSelector||(r.escapeSelector=e);return r.escapeSelector}));require("jira/jquery/plugins/escapeSelector");

@@ -1,1 +1,0 @@
-define("jira/util/formatter",["exports","jira/util/data/meta"],(function(t,r){"use strict";var e=AJS.format.bind(AJS);t.format=e;t.formatNumber=function(t){var e=r.get("user-locale-group-separator")||"";return t.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,e)};t.formatText=e;t.I18n={};t.I18n.getText=function(){return AJS.I18n.getText.apply(AJS.I18n,arguments)}}));

@@ -1,8 +1,0 @@
-/**
- * @preserve jQuery Text Overflow v0.7.4
- *
- * Licensed under the new BSD License.
- * Copyright 2009-2011, Bram Stein
- * All rights reserved.
- */
-!function(e){var t=document.documentElement.style,n="textOverflow"in t||"OTextOverflow"in t,o=function(t,n,o){var i=0,l=[];l.push(t.cloneNode(!1));!function e(t){var d,a=0,h=0;if(!(i>n)){for(a=0;a<t.length;a+=1)if(1===t[a].nodeType){d=t[a].cloneNode(!1);l[l.length-1].appendChild(d);l.push(d);e(t[a].childNodes);l.pop()}else if(3===t[a].nodeType){if(i+t[a].length<n)l[l.length-1].appendChild(t[a].cloneNode(!1));else{d=t[a].cloneNode(!1);h=n-i;o.wholeWord&&(h=Math.min(n-i,d.textContent.substring(0,n-i).lastIndexOf(" ")));d.textContent=o.trim?d.textContent.substring(0,h).replace(/\s+$/g,""):d.textContent.substring(0,h);l[l.length-1].appendChild(d)}i+=t[a].length}else l.appendChild(t[a].cloneNode(!1))}}(t.childNodes);return e(l.pop().childNodes)};e.extend(e.fn,{textOverflow:function(t){var i=e.extend({str:"&#x2026;",autoUpdate:!1,trim:!0,title:!1,className:void 0,wholeWord:!1},t);return n?this:this.each((function(){var t=e(this),n=t.clone(),l=t.clone(),d=t.text(),a=t.width(),h=0,s=0,r=d.length;t.after(n.hide().css({position:"absolute",width:"auto",overflow:"visible","max-width":"inherit","min-width":"inherit"}));if(n.width()>a){for(;h<r;){s=Math.floor(h+(r-h)/2);n.empty().append(o(l.get(0),s,i)).append(i.str);n.width()<a?h=s+1:r=s}if(h<d.length){t.empty().append(o(l.get(0),h-1,i)).append(i.str);i.title&&t.attr("title",d);i.className&&t.addClass(i.className)}}n.remove();i.autoUpdate&&setInterval((function(){if(a!==t.width()){t.replaceWith(l);l=(t=l).clone();t.textOverflow(e.extend({},i,{autoUpdate:!1}));a=t.width()}}),200)}))}})}(jQuery);

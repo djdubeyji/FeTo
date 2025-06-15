@@ -1,1 +1,0 @@
-define("jira/searchers/element/sparkler",["jira/ajs/select/checkbox-multi-select","jira/skate","jquery"],(function(e,r,a){"use strict";return r("js-default-checkboxmultiselect",{type:r.type.CLASSNAME,created:function(r){var t={element:r},l=a.attr(r,"aria-label");l&&(t.ariaLabel=l);new e(t)}})}));require(["jira/searchers/element/sparkler"]);

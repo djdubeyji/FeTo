@@ -1,1 +1,0 @@
-define("jira/data/cookie",["wrm/context-path","atlassian/libs/cookie-1.0.0","underscore"],(function(e,n,o){"use strict";var t=o.clone(n),a=t.save,r=t.saveToConglomerate;t.save=function(n,o,t){return a(n,o,t,e())};t.saveToConglomerate=function(n,o,t){return r(n,o,t,e())};return t}));

@@ -1,1 +1,0 @@
-define("jira/searchers/element/common-pickers-config",[],(function(){"use strict";return{DEFAULT_MAX_RESULTS:100,DEFAULT_START_AT:0,DEFAULT_MAX_RESULTS_PER_GROUP:100}}));

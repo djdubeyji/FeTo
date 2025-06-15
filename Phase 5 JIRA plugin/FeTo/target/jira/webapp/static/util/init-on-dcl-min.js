@@ -1,1 +1,0 @@
-define("jira/util/init-on-dcl",["jira/util/logger"],(function(t){"use strict";return function(e){e&&"function"==typeof e?"interactive"===document.readyState||"complete"===document.readyState?setTimeout(e,1):document.addEventListener("DOMContentLoaded",e,{once:!0}):t.error("Failed to run init function - fn doesn't exist or isn't a function",e)}}));

@@ -1,2 +1,0 @@
-#disable_html_escaping()
-<customfieldvalue displayname="#xmlEscape($!value.displayName)">#xmlEscape($!value.name)</customfieldvalue>

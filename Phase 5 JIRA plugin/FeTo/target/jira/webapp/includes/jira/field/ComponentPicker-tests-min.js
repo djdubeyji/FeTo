@@ -1,1 +1,0 @@
-AJS.test.require(["jira.webresources:jira-fields","jira.webresources:jira-global"],(function(){"use strict";var e=require("jira/field/component-picker");module("JIRA.ComponentPicker",{setup:function(){this.sandbox=sinon.sandbox.create()},teardown:function(){this.sandbox.restore()}});test("Is correctly declared in AMD",(function(){ok(e,"Is AMDifyed")}))}));

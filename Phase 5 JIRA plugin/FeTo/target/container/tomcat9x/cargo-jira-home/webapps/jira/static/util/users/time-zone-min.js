@@ -1,1 +1,0 @@
-define("jira/util/users/time-zone",["wrm/data"],(function(e){"use strict";return Object.freeze(e.claim("jira.core:userTimeZoneProvider.data")||{})}));

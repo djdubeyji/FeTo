@@ -1,1 +1,0 @@
-define("jira/react-16",["jira/react-16.8"],(function(r){return r}));

@@ -1,1 +1,0 @@
-!function(r){"use strict";AJS.whenIType=function(e,t){return new r(e,t)};AJS.whenIType.fromJSON=r.fromJSON}(require("jira/ajs/keyboardshortcut/keyboard-shortcut"));

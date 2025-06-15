@@ -1,1 +1,0 @@
-define("jira/empty-states/template",[],(function(){"use strict";return window.JIRA.Templates.EmptyStates}));

@@ -1,2 +1,0 @@
-#set ($templateContent = "templates/email-batch/html/IssueUpdateBatcher-content.vm")
-#parse("templates/email-batch/html/template.vm")

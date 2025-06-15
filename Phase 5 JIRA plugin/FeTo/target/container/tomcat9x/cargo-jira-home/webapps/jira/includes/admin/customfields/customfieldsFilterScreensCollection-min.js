@@ -1,1 +1,0 @@
-define("jira/customfields/customfieldsFilterScreensCollection",["jira/backbone-1.3.3","wrm/context-path"],(function(e,n){"use strict";return e.Collection.extend({url:n()+"/rest/api/2/screens",id:"screenIds",name:"screens"})}));

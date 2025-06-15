@@ -1,1 +1,0 @@
-require(["jquery","jira/util/data/meta","jira/customfields/customfieldsView"],(function(e,i,t){"use strict";e((function(){i.get("is-custom-field-types-exist")&&new t({el:"#customfields-container"})}))}));

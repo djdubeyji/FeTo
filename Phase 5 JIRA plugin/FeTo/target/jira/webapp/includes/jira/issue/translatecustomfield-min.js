@@ -1,1 +1,0 @@
-require(["jquery"],(function(t){"use strict";t((function(){t("#selectedLocale_select").change((function(){var e=t(this).closest("form");e.attr("action","TranslateCustomField!default.jspa");e.attr("method","GET");e.submit();t(":input").enable(!1)}))}))}));

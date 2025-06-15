@@ -1,1 +1,0 @@
-define("jira/share/util",[],(function(){"use strict";return{toggleElements:function(e,t){var n=document.getElementById(t),i=document.getElementById(e);if(n&&i){n.style.display="none";i.style.display=""}}}}));

@@ -1,1 +1,0 @@
-$i18n.getText($headerI18nString, $event.issueKey)

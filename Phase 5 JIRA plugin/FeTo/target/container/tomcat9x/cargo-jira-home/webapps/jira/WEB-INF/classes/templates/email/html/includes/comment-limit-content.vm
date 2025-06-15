@@ -1,5 +1,0 @@
-#disable_html_escaping()
-
-<h2>#text("jira.safeguards.email.issue.comments.content.title")</h2>
-<p>#text("jira.safeguards.email.issue.comments.content.description")</p>
-<blockquote><i>$textutils.htmlEncode($commentContent)</i></blockquote>
