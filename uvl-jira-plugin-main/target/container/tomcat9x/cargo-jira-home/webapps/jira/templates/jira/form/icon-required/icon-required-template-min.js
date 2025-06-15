@@ -1,0 +1,1 @@
+define("jira/form/icon-required/template",[],(function(){"use strict";return window.JIRA.Templates.Form.IconRequired}));

@@ -1,0 +1,688 @@
+{namespace JIRA.Templates.Admin.Customfields}
+
+/**
+ * Skelton of the page rendered from server, which is further populated by JavaScript clientside
+ * @param? customFieldTypesExist
+ * @param? multiLingual
+ */
+{template .customfieldsPage}
+    {call aui.page.document}
+        {param windowTitle: getText('admin.menu.issuefields.custom.fields') /}
+        {param headContent}
+            <meta name="admin.active.section" content="admin_issues_menu/element_options_section/fields_section" />
+            <meta name="admin.active.tab" content="view_custom_fields" />
+            <meta name="ajs-is-multilingual" content="{$multiLingual}" />
+            <meta name="ajs-is-custom-field-types-exist" content="{$customFieldTypesExist}" />
+        {/param}
+        {param content}
+            {call JIRA.Templates.Headers.pageHeader}
+                {param mainContent}
+                    <h2>{getText('admin.menu.issuefields.custom.fields')}</h2>
+                {/param}
+                {param actionsContent}
+                    {if $customFieldTypesExist}
+                        {call aui.form.buttons}
+                            {param content}
+                                {call aui.form.button}
+                                    {param type: 'primary' /}
+                                    {param id: 'add_custom_fields' /}
+                                    {param href: 'CreateCustomField!default.jspa' /}
+                                    {param text: getText('admin.issuefields.customfields.add.custom.field') /}
+                                {/call}
+                            {/param}
+                        {/call}
+                    {/if}
+                {/param}
+            {/call}
+            <p>
+                {getText('admin.issuefields.customfields.description')} <a
+                    href="{helpUrl('customfields.config')}"
+                    target="_blank">
+                    {getText('admin.issuefields.customfields.description.link.to.documentation')}
+                </a>
+            </p>
+            {if not $customFieldTypesExist}
+                {call aui.message.warning}
+                    {param content}<p>{getText('admin.issuefields.customfields.no.plugins.configured')}</p>{/param}
+                {/call}
+            {/if}
+            <div id="customfields-container" data-track-pageview="admin.customfields"></div>
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * customfieldsPageContent - includes the container for table, pagination etc
+ */
+{template .customfieldsPageContent}
+    <form id="custom-fields-filter" class="aui ajs-dirty-warning-exempt customfield-filter-form"
+          onsubmit="return false">
+    </form>
+    <div class="customfields-meta">
+        <div id="pagination-details"></div>
+        <div id="recalculation-details"></div>
+    </div>
+    {call aui.table}
+        {param id: 'custom-fields-table' /}
+        {param extraClasses: 'jira-sortable-table' /}
+        {param content: '' /}
+    {/call}
+    <div id="pagination-container" data-track-click="admin.customfields.pagination"></div>
+    <div id="customfield-delete-dialog-wrapper"></div>
+{/template}
+
+/**
+ * customfieldsTableContent - includes the container for table, pagination etc
+ * @param? showUsageData - is sorting and extra data enabled
+ * @param? showBulkOperations - show checkbox and bulk operations header
+ */
+{template .customfieldsTableContent}
+    {call .customfieldsTableHeader}
+        {param showUsageData: $showUsageData /}
+        {param showBulkOperations: $showBulkOperations /}
+    {/call}
+    <tbody></tbody>
+{/template}
+
+/**
+ * @param id - id of the customfield used in label
+ * @param labelText - label text for a11y
+ * @param? extraClasses - extra CSS classes
+ * @param? isChecked - is checkbox checked
+ * @param? isDisabled - is checkbox checked
+ */
+{template .checkbox}
+<form class="aui">
+    <div class="checkbox">
+        <input
+            type="checkbox"
+            id="{$id}"
+            class="checkbox{if $extraClasses} {$extraClasses}{/if}"
+            {if $isChecked}checked="checked" {/if}
+            {if $isDisabled}disabled="disabled" {/if}
+        />
+        <label for="{$id}" class="custom-fields-checkbox-label">
+            <span class="visually-hidden">{$labelText}</span>
+        </label>
+    </div>
+</form>
+{/template}
+
+/**
+ * @param? isButtonDisabled - is delete button disabled
+ * @param? isCheckboxDisabled - is bulk checkbox disabled
+ * @param? isChecked - is bulk checkbox checked
+ * @param? count - how many custom fields are going to be deleted
+ */
+{template .bulkHeader}
+    {call .checkbox}
+        {param id: 'custom-fields-bulk-delete'/}
+        {param isChecked: $isChecked/}
+        {param isDisabled: $isCheckboxDisabled/}
+        {param labelText: getText('admin.issuefields.customfields.bulk.checkbox.global')/}
+        {param extraClasses: 'custom-fields-bulk-checkbox'/}
+    {/call}
+    <div class="customfields-bulk-delete-meta">
+        {if $count == 1}
+            {getText('admin.issuefields.customfields.bulk.select.single')}
+        {elseif $count > 1}
+            {getText('admin.issuefields.customfields.bulk.select.multiple', $count)}
+        {else}
+            {getText('admin.issuefields.customfields.bulk.select.none')}
+        {/if}
+        {call aui.buttons.button}
+            {param text: getText('common.words.delete')/}
+            {param extraClasses: 'custom-fields-bulk-delete'/}
+            {param isDisabled: $isButtonDisabled/}
+        {/call}
+    </div>
+{/template}
+
+/**
+ * customfieldsTableHeader - includes header for table
+ * @param? sortOrder - ascending, descending or null
+ * @param? sortColumn - column to sort by
+ * @param? showUsageData - show extra usage columns with sorting
+ * @param? showBulkOperations - show show bulk operations
+ */
+{template .customfieldsTableHeader}
+    <thead {if $showUsageData}class="custom-fields-identification-header"{/if}>
+        <tr>
+            {if $showBulkOperations}
+                <th class="customfield-checkbox">
+                    {call .bulkHeader /}
+                </th>
+            {/if}
+            <th class="customfield-name"><div>{getText('common.words.name')}</div></th>
+            <th class="customfield-type"><div>{getText('admin.common.words.type')}</div></th>
+            <th class="customfield-contexts">
+                <div>
+                    {getText('admin.issuefields.available.contexts')}
+                    {call .helpIcon}
+                        {param title: getText('admin.issuefields.available.contexts.tooltip.description') /}
+                    {/call}
+                </div>
+            </th>
+            <th class="customfield-screens">
+                <div>
+                    {getText('admin.issuefields.screens')}
+                    {call .helpIcon}
+                        {param title: getText('admin.issuefields.screens.tooltip.description') /}
+                    {/call}
+                </div>
+            </th>
+            {if $showUsageData}
+                <th class="customfield-updates sortable {$sortColumn == 'lastValueUpdate' ? 'active' : ''}"
+                    data-sort-key="lastValueUpdate"
+                    data-sort-order="{$sortColumn == 'lastValueUpdate' ? $sortOrder : ''}"
+                >
+                    <div>
+                        {getText('admin.issuefields.last.value.update')}
+                        {call .helpIcon}
+                            {param title: getText('admin.issuefields.last.value.update.description') /}
+                        {/call}
+                        {if $sortColumn == 'lastValueUpdate'}
+                            {call JIRA.Templates.Common.sortIcon}
+                                {param sortOrder: $sortOrder /}
+                            {/call}
+                        {/if}
+                    </div>
+                </th>
+                <th class="customfield-values sortable {$sortColumn == 'issuesWithValue' ? 'active' : ''}"
+                    data-sort-key="issuesWithValue"
+                    data-sort-order="{$sortColumn == 'issuesWithValue' ? $sortOrder : ''}"
+                >
+                    <div>
+                        {getText('admin.issuefields.issues.with.value')}
+                        {call .helpIcon}
+                            {param title: getText('admin.issuefields.issues.with.value.description') /}
+                        {/call}
+                        {if $sortColumn == 'issuesWithValue'}
+                            {call JIRA.Templates.Common.sortIcon}
+                                {param sortOrder: $sortOrder /}
+                            {/call}
+                        {/if}
+                    </div>
+                </th>
+            {/if}
+            <th class="customfield-actions"><div>{getText('common.words.actions')}</div></th>
+        </tr>
+    </thead>
+{/template}
+
+/**
+ * customfieldsPageEmptyContent - displayed when there are no customfields
+ */
+{template .customfieldsEmptyPageContent}
+    {call aui.message.info}
+        {param content}
+            <p>{getText('admin.issuefields.customfields.no.custom.fields.defined')}</p>
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * Displays info about current start number, end and total amount of custom fields
+ * @param start
+ * @param end
+ * @param total
+ */
+{template .paginationDetails}
+    {if $total > 0}
+        <div class="customfields-pagination-details">{getText('admin.issuefields.customfields.pagination.details', $start, $end, $total)}</div>
+    {/if}
+{/template}
+
+/**
+ * Displays info about recalculation status
+ * @param issuesRecalculationDate - date of last recalculation or null if not available
+ * @param isReady - is data available or still loading
+ */
+{template .recalculationDetails}
+{if $isReady}
+    <div class="customfields-recalculation-details">
+        {if $issuesRecalculationDate}
+            {getText('admin.issuefields.customfields.recalculation.details', $issuesRecalculationDate)}
+        {else}
+            {getText('admin.issuefields.customfields.recalculation.details.not.available')}
+            {call .helpIcon}
+                {param title: getText('admin.issuefields.customfields.recalculation.details.not.available.description') /}
+            {/call}
+        {/if}
+    </div>
+{/if}
+{/template}
+
+/**
+ * View custom field
+ * @param customfield {id, numericId, isManaged, isLocked, isAllProjects, managedFieldDescription, untranslatedDescriptionProperty}
+ * @param? multiLingual
+ * @param? showUsageData - is extra usage data (columns, tooltips) visible
+ * @param? showBulkCheckbox - show checkbox for bulk operations (ie bulk delete)
+ * @param? useDeleteDialog - use delete dialog and REST endpoint instead of a separate page
+ */
+{template .customfield}
+    {if $showBulkCheckbox}
+        <td>
+            {call .checkbox}
+                {param id: 'checkbox_' + $customfield?.id /}
+                {param labelText: getText('admin.issuefields.customfields.bulk.checkbox.single', $customfield?.name) /}
+                {param isChecked: false /}
+                {param isDisabled: $customfield?.isLocked or $customfield?.isManaged /}
+                {param extraClasses: 'customfield-checkbox' /}
+            {/call}
+        </td>
+    {/if}
+    <td class="customfield-name-cell">
+        <div class="customfield-head-wrapper">
+            <div class="customfield-name-wrapper">
+                <strong title="{$customfield?.name}" class="customfield-name">
+                    {$customfield?.name}
+                </strong>
+            </div>
+            <div class="customfield-details">
+                {if $showUsageData and $customfield?.isTrusted == false}
+                    {call .helpIcon}
+                        {param title: getText('admin.issuefields.customfields.untrusted.description') /}
+                    {/call}
+                {/if}
+                {if $customfield?.isLocked}
+                    {call aui.lozenges.lozenge}
+                        {param text: getText('admin.managed.configuration.items.locked') /}
+                        {param title: getText('admin.managed.configuration.items.locked.tooltip') /}
+                        {param isSubtle: true /}
+                        {param extraClasses: 'customfield-lozenge customfield-locked' /}
+                    {/call}
+                {elseif $customfield?.isManaged}
+                    {call aui.lozenges.lozenge}
+                        {param text: getText('admin.managed.configuration.items.managed') /}
+                        {param title: $customfield?.managedFieldDescriptionKey /}
+                        {param isSubtle: true /}
+                        {param extraClasses: 'customfield-lozenge customfield-managed' /}
+                    {/call}
+                {/if}
+            </div>
+        </div>
+        {if $customfield?.description}
+            <div class="secondary-text description"
+                 title="{$customfield?.description}">{$customfield?.description |noescape}</div>
+        {/if}
+    </td>
+    <td class="customfield-type-cell"><span>{$customfield?.type}</span></td>
+    <td>
+        {if $customfield?.isAllProjects}
+            {getText('admin.issuefields.customfields.global.all.projects')}
+        {elseif $customfield?.projectsCount}
+            {call aui.form.buttons}
+                {param content}
+                    {call aui.form.linkButton}
+                        {param id: 'view_available_contexts_' + $customfield?.id /}
+                        {param type: 'primary' /}
+                        {param href: 'AssociatedProjectsForCustomField.jspa?customFieldId=' + $customfield.numericId /}
+                        {param text: getText('admin.issuefields.customfields.projects.conditional', $customfield?.projectsCount) /}
+                        {param extraClasses: 'trigger-dialog' /}
+                    {/call}
+                {/param}
+            {/call}
+        {else}
+            {getText('admin.issuefields.customfields.projects.conditional', $customfield?.projectsCount)}
+        {/if}
+    </td>
+    <td>
+        {if $customfield?.screensCount}
+            {call aui.form.buttons}
+                {param content}
+                    {call aui.form.linkButton}
+                        {param id: 'view_field_screens_' + $customfield?.id /}
+                        {param type: 'primary' /}
+                        {param href: 'AssociatedScreensForCustomField.jspa?customFieldId=' + $customfield?.id /}
+                        {param text: getText('admin.issuefields.customfields.screens.conditional', $customfield?.screensCount) /}
+                        {param extraClasses: 'trigger-dialog' /}
+                    {/call}
+                {/param}
+            {/call}
+        {else}
+            {getText('admin.issuefields.customfields.screens.conditional', $customfield?.screensCount)}
+        {/if}
+    </td>
+    {if $showUsageData}
+        <td class="customfield-last-value-update-cell">
+            <span {if $customfield?.lastValueUpdate}title="{$customfield?.formattedLastValueUpdate}"{/if}>
+                {if $customfield?.lastValueUpdate}
+                    {$customfield?.formattedLastValueUpdate}
+                {else}
+                    {if $customfield?.isTrusted}
+                        {getText('admin.common.words.never')}
+                    {else}
+                        {getText('admin.issuefields.customfields.no.data')}
+                    {/if}
+                {/if}
+            </span>
+        </td>
+        <td class="customfield-values-cell">
+            <span>
+                {if $customfield?.formattedIssuesWithValue}
+                    {$customfield?.formattedIssuesWithValue}
+                {else}
+                    {$customfield?.isTrusted ? 0 : getText('admin.issuefields.customfields.no.data')}
+                {/if}
+            </span>
+        </td>
+    {/if}
+    <td class="cell-type-actions">
+        <button class="aui-button aui-dropdown2-trigger aui-dropdown2-trigger-arrowless aui-alignment-target aui-alignment-abutted aui-alignment-abutted-left aui-alignment-element-attached-top aui-alignment-element-attached-left aui-alignment-target-attached-bottom aui-alignment-target-attached-left"
+                aria-haspopup="true" resolved="" aria-controls="dropdown2-more-{$customfield.id}" aria-expanded="false">
+            <span class="aui-icon aui-icon-small aui-iconfont-more">{getText('admin.common.words.show')}</span>
+        </button>
+        <div id="dropdown2-more-{$customfield.id}" class="aui-dropdown2 aui-style-default">
+            <ul class="aui-list-truncate">
+                {if not $customfield.isLocked}
+                    <li><a id="config_{$customfield.id}"
+                           href="ConfigureCustomField!default.jspa?customFieldId={$customfield.numericId}">{getText('admin.issuefields.customfields.options.configure')}</a>
+                    </li>
+                {else}
+                    <li><a id="config_{$customfield.id}"
+                           href="ConfigureCustomField!default.jspa?customFieldId={$customfield.numericId}">{getText('common.words.view')}</a>
+                    </li>
+                {/if}
+                {if not $customfield.isLocked}
+                    <li><a id="edit_{$customfield.name}"
+                           href="EditCustomField!default.jspa?id={$customfield.numericId}">{getText('admin.issuefields.customfields.options.edit')}</a>
+                    </li>
+                    {if $multiLingual}
+                        <li class="aui-list-item"><a id="translate_{$customfield.id}"
+                                                     href="TranslateCustomField!default.jspa?id={$customfield.numericId}">{getText('admin.issuefields.customfields.options.translate')}</a>
+                        </li>
+                    {/if}
+                {/if}
+                <li><a id="associate_{$customfield.id}"
+                       href="AssociateFieldToScreens!default.jspa?fieldId={$customfield.id}&returnUrl=ViewCustomFields.jspa">{getText('admin.issuefields.customfields.options.screens')}</a>
+                </li>
+                {if not $customfield.isLocked}
+                    <li><a id="del_{$customfield.id}"
+                           {if $useDeleteDialog}class="customfield-delete-trigger"{/if}
+                           href="DeleteCustomField!default.jspa?id={$customfield.numericId}">{getText('common.words.delete')}</a>
+                    </li>
+                {/if}
+            </ul>
+        </div>
+    </td>
+{/template}
+
+/**
+ * Show error message while try to change CF page
+ * @param? messages
+ * @param status
+ */
+{template .applicationAccessError}
+    {switch $status}
+        {case 401}
+            {getText('admin.issuefields.customfields.error.rest.unauthorized.description')}
+        {case 403}
+            {getText('admin.issuefields.customfields.error.rest.forbidden.description')}
+        {case 0}
+            <p>{getText('admin.issuefields.customfields.error.rest.commserror')}</p>
+        {default}
+            {if isNonnull($messages) and length($messages) != 0}
+                {foreach $message in $messages}
+                    <p>{$message}</p>
+                {/foreach}
+            {else}
+                <p>{getText('rest.error.internal')}</p>
+            {/if}
+    {/switch}
+{/template}
+
+/**
+ * Show error message header while try to change CF page
+ * @param status
+ */
+{template .applicationAccessErrorHeading}
+    {switch $status}
+        {case 401}
+            {getText('admin.issuefields.customfields.error.rest.unauthorized')}
+        {case 403}
+            {getText('admin.issuefields.customfields.error.rest.forbidden')}
+        {default}
+            {getText('common.words.error')}
+    {/switch}
+{/template}
+
+/**
+ * Dropdown option in selects
+ * @param name
+*/
+{template .selectDropdownItem}
+    <a href="#" class="customfield-filter-dropdown-item">{$name}</a>
+{/template}
+
+/**
+ * Calendar option in selects
+ * @param label - input label
+ * @param name - field name
+*/
+{template .selectDropdownCalendarItem}
+    <div class="customfields-calendar-item">
+        <form class="aui top-label">
+            <div class="field-group">
+                <label for="customfields-calendar-input-{$name}">{$label}</label>
+                <div class="customfield-text-input-wrapper">
+                    <input class="customfields-calendar-input text"
+                           id="customfields-calendar-input-{$name}"
+                           type="text"
+                           readonly
+                    >
+                    <span class="aui-icon aui-icon-small aui-iconfont-calendar"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+{/template}
+
+/**
+ * A single container for filters
+ * @param showLastValueUpdateFilter - is last value update dropdown visible
+*/
+{template .filterContainer}
+    <div class="customfield-filter-items">
+        <div class="customfield-filter-item customfield-text-input-wrapper">
+            <input type="text"
+                   id="custom-fields-filter-text"
+                   data-track-click="admin.customfields.filter.text"
+                   placeholder="{getText('browse.projects.filtertext.placeholder')}"
+                   class="version-filter-text text">
+            <span class="aui-icon aui-icon-small aui-iconfont-search-small"></span>
+        </div>
+        {call .filterItem}
+            {param id: 'projects' /}
+            {param name: getText('common.words.project') /}
+            {param text: getText('common.words.project') + ': ' + getText('common.words.all') /}
+        {/call}
+        {call .filterItem}
+            {param id: 'types' /}
+            {param name: getText('admin.common.words.type') /}
+            {param text: getText('admin.common.words.type') + ': ' + getText('common.words.all') /}
+        {/call}
+        {call .filterItem}
+            {param id: 'screens' /}
+            {param name: getText('admin.common.words.screen') /}
+            {param text: getText('admin.common.words.screen') + ': ' + getText('common.words.all') /}
+        {/call}
+        {if $showLastValueUpdateFilter}
+            {call .selectItem}
+                {param id: 'last-value-update' /}
+                {param name: getText('admin.issuefields.last.value.update') /}
+                {param text: getText('admin.issuefields.last.value.update') + ': ' + getText('common.words.all') /}
+            {/call}
+        {/if}
+    </div>
+{/template}
+
+/**
+ * A single filter item
+ * @param checked
+ * @param id
+ * @param name
+ * @param? description
+ * @param? avatarUrl
+*/
+{template .filterDropdownItem}
+    <label title="{$description}" class="customfield-filter-dropdown-item">
+        <input class="customfield-filter-item-checkbox" value="{$id}" type="checkbox"
+               {if ($checked)}checked="checked"{/if}/>
+        {if ($avatarUrl)}
+            <span class="customfield-filter-image">
+                    <img height="16" width="16" align="absmiddle" src="{$avatarUrl}" loading="lazy">
+                </span>
+        {/if}
+        <span class="customfield-filter-text">{$name}</span>
+    </label>
+{/template}
+
+/**
+ * Filter item. Dropdown containing items to check (ie list of projects)
+ * @param id
+ * @param text
+*/
+{template .filterItem}
+    <div class="customfield-filter-item" id="{$id}">
+        <button class="aui-button aui-dropdown2-trigger customfield-filter-dropdown-trigger"
+                aria-controls="{$id}-filter-dropdown" id="{$id}-dropdown-trigger">
+            {$text}
+        </button>
+        <aui-dropdown-menu id="{$id}-filter-dropdown" aria-controls="left-aligned"></aui-dropdown-menu>
+    </div>
+{/template}
+
+/**
+ * Select item. Select (inline-dialog) containing single-choice options or widgets
+ * @param id
+ * @param text
+*/
+{template .selectItem}
+    <div class="customfield-filter-item" id="{$id}">
+        <button class="aui-button customfield-filter-dropdown-trigger"
+                data-aui-trigger
+                aria-controls="{$id}-filter-dropdown" id="{$id}-dropdown-trigger">
+            {$text}
+        </button>
+        <aui-inline-dialog id="{$id}-filter-dropdown"></aui-inline-dialog>
+    </div>
+{/template}
+
+/**
+ * Template for filter and dropdown
+ * @param title
+ * @param placeholder
+*/
+{template .filterDropdownContainer}
+    <div class="customfield-filter-text-search">
+        <input type="text" class="customfield-filter-text-search-input text" placeholder="{$placeholder}" />
+        <span class="icon-default aui-icon aui-icon-small aui-iconfont-search"></span>
+    </div>
+
+    <div class="customfield-filter-scroll">
+        <div class="customfield-filter-selected-items-container">
+            <div class="customfield-filter-clear">
+                <span class="aui-button aui-button-link clear-selected">{getText('common.filters.clear')}</span>
+            </div>
+            <ul class="customfield-filter-dropdown-items selected-items"></ul>
+        </div>
+
+        <aui-section label="{$title}" class="unselected-items-container">
+            <ul class="customfield-filter-dropdown-items unselected-items"></ul>
+        </aui-section>
+    </div>
+{/template}
+
+/**
+ * Renders empty state for filters
+*/
+{template .emptyFilterView}
+    <li class="no-suggestions">{getText('common.filters.no.matches')}</li>
+{/template}
+
+/**
+ * Renders delete dialog
+*/
+{template .deleteDialog}
+    <section
+        id="customfield-delete-dialog"
+        class="aui-dialog2 aui-dialog2-medium"
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="customfield-delete-dialog-heading"
+        hidden
+    >
+        <header class="aui-dialog2-header">
+            <h1 class="aui-dialog2-header-main" id="customfield-delete-dialog-heading">{getText('admin.issuefields.customfields.delete.single.header')}</h1>
+            <button class="aui-close-button" type="button" aria-label="close"></button>
+        </header>
+        <div class="aui-dialog2-content customfield-delete-dialog-content"></div>
+        <footer class="aui-dialog2-footer">
+            <div class="aui-dialog2-footer-actions">
+                {call aui.buttons.button}
+                    {param text: getText('common.words.delete')/}
+                    {param type: 'primary'/}
+                    {param extraClasses: 'customfield-delete-dialog-submit'/}
+                {/call}
+                {call aui.buttons.button}
+                    {param text: getText('common.words.cancel')/}
+                    {param type: 'link'/}
+                    {param extraClasses: 'customfield-delete-dialog-cancel'/}
+                {/call}
+            </div>
+            <div class="aui-dialog2-footer-hint">
+                <aui-spinner size="small" class="customfield-delete-dialog-spinner hidden"></aui-spinner>
+            </div>
+        </footer>
+    </section>
+{/template}
+
+/**
+ * Renders deletion information
+ * @param count - amount of custom fields to be deleted
+ * @param name - custom field name. Used in single deletion case
+*/
+{template .deleteDialogContent}
+<p>
+    {if $count > 1}
+        {getText('admin.issuefields.customfields.delete.bulk.info', $count)|noescape} {getText('admin.issuefields.customfields.delete.bulk.warning')}
+    {else}
+        {let $safeName}{$name|escapeHtml}{/let}
+        {getText('admin.issuefields.customfields.delete.single.info', $safeName)|noescape} {getText('admin.issuefields.customfields.delete.single.warning')}
+    {/if}
+</p>
+<p>
+{if $count > 1}
+    {getText('admin.issuefields.customfields.delete.bulk.question')}
+{else}
+    {getText('admin.issuefields.customfields.delete.question')}
+{/if}
+</p>
+{/template}
+
+/**
+ * Renders help icon with tooltip
+ * @param title
+*/
+{template .helpIcon}
+    {call aui.icons.icon}
+        {param accessibilityText: $title/}
+        {param useIconFont: true /}
+        {param size: 'small' /}
+        {param icon: 'info-circle' /}
+        {param extraClasses: 'customfield-help-icon'/}
+        {param extraAttributes: ['title': $title] /}
+    {/call}
+{/template}
+
+/**
+ * Content for message flag
+ * @param title
+ * @param description
+ */
+{template .message}
+    <p><strong>{$title}</strong></p>
+    {$description}
+{/template}

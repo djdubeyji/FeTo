@@ -1,0 +1,145 @@
+<!-- New Feedback Panel: Test Data Example -->
+<style>
+  .feedback-panel {
+    width: 350px;
+    background: #f7f9fb;
+    border-left: 1px solid #e1e4e8;
+    padding: 16px;
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 100;
+  }
+  .feedback-topic {
+    cursor: pointer;
+    padding: 8px 0;
+    font-weight: 600;
+    border-bottom: 1px solid #e1e4e8;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.2s;
+  }
+  .feedback-topic:hover {
+    background: #ecf2fa;
+  }
+  .feedback-list {
+    padding-left: 16px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+  }
+  .feedback-item {
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #555d66;
+  }
+  .arrow {
+    font-size: 11px;
+    margin-left: 10px;
+    transition: transform 0.2s;
+  }
+  .arrow.expanded {
+    transform: rotate(90deg);
+  }
+</style>
+
+<div class="feedback-panel">
+  <h3 style="margin-bottom: 18px; color:#1a2733;">New Feedback Panel</h3>
+  <div id="feedbackTopics"></div>
+</div>
+
+<script>
+  // Test feedback data based on your provided list
+  const feedbackData = [
+    {
+      topic: "I can't find any links to other apps.",
+      feedbacks: [
+        "I can't find any links to other apps."
+      ]
+    },
+    {
+      topic: "Better introduction to using smartVERNETZT",
+      feedbacks: [
+        "Better introduction to using smartVERNETZT",
+        "\"If you don't have basic IT skills or no one to show you how to use the tablet.\"",
+        "For people with no prior training in cell phone use",
+        "Better introduction to using smartVERNETZT"
+      ]
+    },
+    {
+      topic: "Simplifying routes, but how?",
+      feedbacks: [
+        "Simplifying routes, but how?",
+        "No topic, because it is not clear what is meant)"
+      ]
+    },
+    {
+      topic: "Personal telephone consultation, not by email",
+      feedbacks: [
+        "Personal telephone consultation, not by email",
+        "No topic, because it is not clear what is meant)"
+      ]
+    },
+    {
+      topic: "As I have a lot of contact with Polish people, I would need the Polish alphabet. Otherwise writing takes too much time",
+      feedbacks: [
+        "As I have a lot of contact with Polish people, I would need the Polish alphabet. Otherwise writing takes too much time",
+        "Explanation of the tablet keyboard functionality"
+      ]
+    },
+    {
+      topic: "How many times have you asked the question and how do I get the punctuation on the tablet?",
+      feedbacks: [
+        "how do i get the punctuation on the tablet",
+        "Explanation of the tablet keyboard functionality"
+      ]
+    }
+  ];
+
+  // State: which topics are expanded
+  const expandedState = {};
+
+  function renderFeedbackPanel() {
+    const container = document.getElementById('feedbackTopics');
+    container.innerHTML = '';
+    feedbackData.forEach((item, idx) => {
+      // Create topic header
+      const topicDiv = document.createElement('div');
+      topicDiv.className = 'feedback-topic';
+      topicDiv.onclick = () => {
+        expandedState[idx] = !expandedState[idx];
+        renderFeedbackPanel();
+      };
+
+      const topicText = document.createElement('span');
+      topicText.textContent = item.topic;
+      topicDiv.appendChild(topicText);
+
+      const arrow = document.createElement('span');
+      arrow.className = 'arrow' + (expandedState[idx] ? ' expanded' : '');
+      arrow.textContent = '▶';
+      topicDiv.appendChild(arrow);
+
+      container.appendChild(topicDiv);
+
+      // Feedback list
+      if (expandedState[idx]) {
+        const feedbackList = document.createElement('div');
+        feedbackList.className = 'feedback-list';
+        item.feedbacks.forEach(fb => {
+          const fbDiv = document.createElement('div');
+          fbDiv.className = 'feedback-item';
+          fbDiv.textContent = fb;
+          feedbackList.appendChild(fbDiv);
+        });
+        container.appendChild(feedbackList);
+      }
+    });
+  }
+
+  // Initialize panel (all collapsed by default)
+  renderFeedbackPanel();
+</script>

@@ -1,0 +1,13 @@
+{namespace JIRA.Templates.Common}
+
+/**
+ * Sort order icon.
+ * @param sortOrder order of sorting
+ */
+{template .sortIcon}
+    {call aui.icons.icon}
+        {param useIconFont: true /}
+        {param size: 'small' /}
+        {param icon: $sortOrder == 'ascending' ? 'new-arrow-up' : 'new-arrow-down' /}
+    {/call}
+{/template}

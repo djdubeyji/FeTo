@@ -1,0 +1,5 @@
+<mail-config>
+	<manager class="com.atlassian.mail.server.managers.jira.OFBizMailServerManager" />
+    <settings class="com.atlassian.jira.mail.settings.ApplicationSettingsForwardingImplementation"/>
+    <auth-ctx-factory class="com.atlassian.mail.auth.JiraAuthenticationContextFactory" />
+</mail-config>

@@ -1,0 +1,1 @@
+define("jira/dropdown/standard",["jira/dropdown","jira/util/objects"],(function(r,n){"use strict";return function(d,t){var a=n.begetObject(r);a.init(d,t);return a}}));AJS.namespace("JIRA.Dropdown.Standard",null,require("jira/dropdown/standard"));

@@ -1,0 +1,25 @@
+#disable_html_escaping()
+#* @vtlvariable name="avatarURL" type="java.lang.String" *#
+#* @vtlvariable name="avatarSize" type="java.lang.String" *#
+#if (!$avatarSize || $avatarSize.empty())
+    #set ($avatarSize = "xsmall")
+#end
+
+#set ($shouldLazyLoadImage = false)
+#if ($lazyLoadImage)
+    #set ($shouldLazyLoadImage = true)
+#end
+
+#if ($avatarURL && !$avatarURL.empty())
+    #if ((!$username || $username.empty()) && $defaultFullName)
+        #set ($username = $defaultFullName)
+    #end
+
+    $soyRenderer.render("com.atlassian.auiplugin:soy","aui.avatar.avatar", {
+    "avatarImageUrl": $avatarURL,
+    "size": $avatarSize,
+    "tagName": 'span',
+    "accessibilityText" : $username,
+    "lazyLoadImage": $shouldLazyLoadImage
+    })
+#end

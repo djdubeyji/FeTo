@@ -1,0 +1,224 @@
+{namespace JIRA.Templates.Admin.ConfigureField}
+
+/**
+* Renders the configure system field page
+ *
+ * @param fieldId
+ * @param selfUrl
+ * @param screensUrl
+ * @param fieldName
+ * @param configSchemes
+ * @param screens
+ * @param associatedScreensCount
+ * @param selectedTab
+ * @param xsrfToken
+*/
+{template .main}
+    {call aui.page.document}
+        {param windowTitle}{getText('admin.issuefields.config.title', $fieldName)}{/param}
+        {param headContent}
+            <meta name="admin.active.section" content="admin_issues_menu/element_options_section/fields_section" />
+            <meta name="admin.active.tab" content="view_system_fields" />
+        {/param}
+        {param content}
+            {call JIRA.Templates.Headers.pageHeader}
+                {param mainContent}
+                    <div class="configure-field">
+                        <div class="configure-field-back-navigation">
+                            <a href="{contextPath()}/secure/admin/ViewSystemFields.jspa" class="back-link">
+                                <span class="aui-icon aui-icon-small aui-iconfont-chevron-left"></span>
+                                {getText('admin.issuefields.config.backtofields')}
+                            </a>
+                            <div id="system-fields-feedback-collector"></div>
+                        </div>
+
+                        <h2>{getText('admin.issuefields.config.title', $fieldName)}</h2>
+                        <p class="configure-field-header-description">
+                            {getText('admin.issuefields.config.header.description')} <a href="{helpUrl('systemfields.config')}">{getText('admin.issuefields.systemfields.learnmore')}</a>
+                        </p>
+
+                        <div class="aui-tabs horizontal-tabs">
+                            <ul class="tabs-menu">
+                                <li class="menu-item {if $selectedTab == 'contexts'}active-tab{/if}">
+                                    <a href="#contexts-and-default-values">{getText('admin.issuefields.config.tab.contexts')}</a>
+                                </li>
+                                <li class="menu-item {if $selectedTab != 'contexts'}active-tab{/if}">
+                                    <a href="#screens">{getText('admin.menu.globalsettings.screens')}</a>
+                                </li>
+                            </ul>
+                            <div class="tabs-pane {if $selectedTab == 'contexts'}active-pane{/if}" id="contexts-and-default-values">
+                                <div class="context-controls">
+                                    <p>{getText('admin.issuefields.config.tab.contexts.description')}</p>
+                                    <button class="aui-button aui-button-primary" id="configurefield-addcontext">{getText('admin.issuefields.config.addcontext')}</button>
+                                </div>
+                                {if length($configSchemes) > 0}
+                                    {call .table}
+                                        {param configSchemes: $configSchemes /}
+                                        {param fieldId: $fieldId /}
+                                        {param selfUrl: $selfUrl /}
+                                    {/call}
+                                {/if}
+                            </div>
+                            <div class="tabs-pane {if $selectedTab != 'contexts'}active-pane{/if}" id="screens">
+                                <p class="screens-summary-message">{getText('admin.issuefields.config.screens.count', '<span class="field-name">', $fieldName, '</span>', $associatedScreensCount)|noAutoescape}</p>
+                                    {call .screensTable}
+                                        {param screens: $screens /}
+                                        {param fieldId: $fieldId /}
+                                        {param screensUrl: $screensUrl /}
+                                        {param xsrfToken: $xsrfToken /}
+                                    {/call}
+                            </div>
+                        </div>
+
+                        <div id="context-dialog-container" data-fieldid="{$fieldId}"></div>
+                    </div>
+                {/param}
+            {/call}
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * @param configSchemes
+ * @param fieldId
+ * @param selfUrl
+*/
+{template .table}
+    <table class="aui">
+        <thead>
+            <tr>
+                <th class="name-header">{getText('admin.issuefields.config.contextname')}</th>
+                <th class="default-value-header">{getText('admin.issuefields.config.defaultvalue')}</th>
+                <th>{getText('admin.issuefields.config.issuetypes')}</th>
+                <th>{getText('admin.issuefields.config.projects')}</th>
+                <th class="actions-header">{getText('common.words.actions')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $configScheme in $configSchemes}
+                <tr>
+                    <td class="name-cell description-cell">
+                        <strong>{$configScheme.name}</strong>
+                        {if $configScheme.allProjects}
+                        <span class="context-tooltip aui-icon aui-icon-small aui-iconfont-info-filled" tabindex="0" title="{getText('admin.issuefields.config.global.context.info')}">
+                            {getText('admin.issuefields.config.global.context.info.title')}
+                        </span>
+                        {/if}
+                        {if $configScheme.description}
+                            <div class="config-scheme-description collapsed-content">
+                                <p class="description">{$configScheme.description}</p>
+                            </div>
+                        {/if}
+                    </td>
+                    <td class="default-value-cell">
+                        {if $configScheme.hasDefaultValue}
+                            <div class="config-scheme-default-value collapsed-content">{$configScheme.defaultValue|noAutoescape}</div>
+                        {else}
+                            {getText('admin.issuefields.config.defaultvalue.notset')}
+                        {/if}
+                    </td>
+                    <td>
+                        <button class="issuetype-list-link aui-button aui-button-link" data-field-id="{$fieldId}" data-field-name="{$fieldId}" data-context-id="{$configScheme.id}" data-context-name="{$configScheme.name}">
+                            {if $configScheme.allIssueTypes}
+                                {getText('admin.issuefields.config.issuetypes.any')}
+                            {else}
+                                {getText('admin.common.words.issuetype.with.number', $configScheme.issueTypeCount)}
+                            {/if}
+                        </button>
+                    </td>
+                    <td>
+                        <button class="project-list-link aui-button aui-button-link" data-field-id="{$fieldId}" data-field-name="{$fieldId}" data-context-id="{$configScheme.id}" data-context-name="{$configScheme.name}">
+                            {if $configScheme.allProjects}
+                                {getText('admin.issuefields.config.projects.global')}
+                            {else}
+                                {getText('admin.common.words.project.with.number', $configScheme.projectCount)}
+                            {/if}
+                        </button>
+                    </td>
+                    <td>
+                        <button class="aui-button aui-dropdown2-trigger aui-dropdown2-trigger-arrowless" aria-controls="field-actions-{$configScheme.id}">
+                            <span class="aui-icon ani-icon-small aui-iconfont-more">{getText('common.words.actions')}</span>
+                        </button>
+                        <aui-dropdown-menu id="field-actions-{$configScheme.id}">
+                            <aui-section>
+                                <aui-item-link href="#edit-contextid-{$configScheme.id}">
+                                    {getText('common.words.edit')}
+                                </aui-item-link>
+                                <aui-item-link class="trigger-dialog delete-context" href="{contextPath()}/secure/admin/ConfigureCustomField!delete.jspa?fieldId={$fieldId}&fieldConfigSchemeId={$configScheme.id}&returnUrl={$selfUrl}">
+                                    {getText('common.words.delete')}
+                                </aui-item-link>
+                            </aui-section>
+                        </aui-dropdown-menu>
+                    </td>
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+    <div id="issuetypes-projects-dialog-container"></div>
+{/template}
+
+/**
+ * Screens table
+ * @param screens
+ * @param fieldId
+ * @param screensUrl
+ * @param xsrfToken
+*/
+{template .screensTable}
+    <form action="AssociateFieldToScreens.jspa" method="POST" name="{getText('common.forms.update')}" class="aui" id="screens-form">
+    <input type="hidden" name="returnUrl" value="{$screensUrl}" />
+    <input type="hidden" name="atl_token" value="{$xsrfToken}"/>
+    <input type="hidden" name="fieldId" value="{$fieldId}" />
+    <table class="aui">
+        <thead>
+        <tr>
+            <th class="name-header">{getText('admin.common.words.screen')}</th>
+            <th class="default-value-header">{getText('admin.associatefield.tab')}</th>
+            <th>{getText('common.words.select')}</th>
+        </tr>
+        </thead>
+        <tbody>
+            {foreach $screen in $screens}
+            <tr>
+                <td class="name-cell">
+                    {$screen.name}
+                </td>
+                <td>
+                    {if length($screen.tabs) == 1}
+                        {foreach $tab in $screen.tabs }
+                            {$tab.name}
+                            <input type="hidden" name="{$screen.id}" value="{$tab.id}" />
+                        {/foreach}
+                    {else}
+                        <select class="select" name="{$screen.id}">
+                            {foreach $tab in $screen.tabs}
+                                <option value="{$tab.id}" {if $tab.fieldOnTab}selected{/if}>{$tab.name}</option>
+                            {/foreach}
+                        </select>
+                    {/if}
+                </td>
+                <td>
+                        <div class="checkbox">
+                            <input class="checkbox" type="checkbox" name="associatedScreens" id="{$screen.id}" value="{$screen.id}" {if $screen.fieldOnScreen}checked{/if}>
+                            <label style="height: 17px; display: inline-block" for="{$screen.id}"><span class="visually-hidden">{getText('admin.issuefields.config.screen.select', $screen.name)}</span></label>
+                        </div>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+        <button class="aui-button aui-button-primary" id="screens-form-submit">{getText('common.forms.update')}</button>
+    </form>
+{/template}
+
+/**
+ * "Field not found" error message
+ */
+{template .fieldNotFound}
+    <div class="aui-message aui-message-error">
+        <p class="title">
+            <strong>{getText('admin.common.words.error')}</strong>
+        </p>
+        <p>{getText('admin.issuefields.config.fieldnotfound')}</p>
+    </div>
+{/template}

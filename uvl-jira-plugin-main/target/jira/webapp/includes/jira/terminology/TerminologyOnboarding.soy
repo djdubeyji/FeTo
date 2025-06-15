@@ -1,0 +1,39 @@
+{namespace JIRA.Templates.Terminology}
+
+/**
+ *
+ * This template renders the info icon which triggers terminology onboarding inline dialog
+ * @param fieldType
+ */
+{template .onboardingInfoIcon}
+    <span>
+    {sp} <span
+            class="aui-icon aui-icon-small aui-iconfont-info-filled"
+            data-aui-trigger
+            aria-controls="terminology-onboarding-{$fieldType}"
+            role="button"
+            tabindex="0"
+            style="cursor: pointer"
+    >Open help dialog</span>
+    </span>
+{/template}
+
+/**
+ *
+ * This template renders terminology onboarding inline dialog.
+ * @param fieldType
+ * @param newNamePlural
+ */
+{template .onboardingDilaog}
+    <aui-inline-dialog id="terminology-onboarding-{$fieldType}">
+        {if $fieldType == 'sprint'}
+            <p>{getText('jira.terminology.onboarding.sprint.message', $newNamePlural)|noAutoescape}</p>
+        {else}
+            <p>{getText('jira.terminology.onboarding.epic.message', $newNamePlural)|noAutoescape}</p>
+        {/if}
+        {sp}<a href="{helpUrl('terminology.learn.more')}">{getText('common.concepts.learn.more')}</a>
+        <ul class="aui-nav-actions-list">
+            <button class="aui-button terminology-dismiss-btn">{getText('jira.terminology.onboarding.dismiss.text')}</button>
+        </ul>
+    </aui-inline-dialog>
+{/template}

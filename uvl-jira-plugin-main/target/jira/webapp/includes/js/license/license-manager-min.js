@@ -1,0 +1,1 @@
+define("jira/license/license-manager",["wrm/data","exports"],(function(e,i){"use strict";var c=e.claim("jira.core:dc-license-info.data"),n={};Object.defineProperty(n,"isDcLicense",{value:!!c&&c.isDcLicense});i.isDcLicense=function(){return n.isDcLicense}}));

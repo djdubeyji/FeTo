@@ -1,0 +1,28 @@
+{namespace JIRA.Templates.EmptyStates}
+
+/**
+ * Renders ADGS/ADG3-compatible empty state.
+ *
+ * @param? imageURL URL to the spot illustration, a default: `webstatic:images/empty-states/no-results.svg`
+ * @param message the main message, a heading, e.g. No issues were found to match your search
+ * @param? hint a secondary message with extra details or helpful hints, e.g. Try logging in to see more results.
+ * @param? noAutoescapeHint if true, `|noAutoescape` is used for $hint (to allow links, for instance); false by default
+ * @param? extraClasses additional classes to be added to the empty state container
+ */
+{template .render}
+    {let $defaultImageURL}{contextPath()}/images/empty-states/no-results.svg{/let}
+
+    <section class="empty-state__container{if $extraClasses} {$extraClasses}{/if}">
+        <img src="{$imageURL ? $imageURL : $defaultImageURL}" class="empty-state__spot" alt=""/>
+        <h2 class="empty-state__message">{$message}</h2>
+        {if $hint}
+            <p class="empty-state__hint">
+                {if $noAutoescapeHint == true}
+                    {$hint|noAutoescape}
+                {else}
+                    {$hint}
+                {/if}
+            </p>
+        {/if}
+    </section>
+{/template}

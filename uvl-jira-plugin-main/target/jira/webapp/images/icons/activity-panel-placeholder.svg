@@ -1,0 +1,8 @@
+<svg style="width: 100%;" height="70" xmlns="http://www.w3.org/2000/svg">
+    <style>#mask{opacity:0.5;animation:pulsing 3s infinite}@keyframes pulsing{0%,to{opacity:0.5}35%,75%{opacity:1}}</style>
+    <g fill="none" fill-rule="evenodd" id="mask">
+        <rect fill-opacity=".08" fill="#091E42" x="0" y="15" width="100%" height="12" rx="3"></rect>
+        <rect fill-opacity=".08" fill="#091E42" x="0" y="35" width="100%" height="12" rx="3"></rect>
+        <rect fill-opacity=".08" fill="#091E42" x="0" y="55" width="100%" height="12" rx="3"></rect>
+    </g>
+</svg>

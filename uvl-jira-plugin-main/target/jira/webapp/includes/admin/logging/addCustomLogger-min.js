@@ -1,0 +1,1 @@
+require(["jquery","jira/dialog/form-dialog","jira/util/urls"],(function(e,o,i){"use strict";e((function(){var l=JIRA.loggingLevels;new o({trigger:"#add-custom-logger-link",id:"add-custom-loger-dialog",width:560,content:function(o){var t=JIRA.Templates.Logging.loggerForm({availableLevels:l,atlToken:i.atl_token()});o(e(t))},autoClose:!0})}))}));

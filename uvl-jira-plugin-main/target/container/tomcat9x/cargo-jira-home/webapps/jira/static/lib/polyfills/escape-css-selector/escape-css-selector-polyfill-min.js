@@ -1,0 +1,1 @@
+define("jira/polyfill/escapeCSSSelector",[],(function(){return CSS.escape}));

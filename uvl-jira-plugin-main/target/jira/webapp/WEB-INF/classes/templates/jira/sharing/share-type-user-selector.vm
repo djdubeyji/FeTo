@@ -1,0 +1,12 @@
+#disable_html_escaping()
+<img src="${baseurl}/images/icons/hierarchy_arrow.gif" alt="$i18n.getText('common.words.arrow')" width="10px" height="10px"/>
+<select
+    aria-label="$i18n.getText("common.sharing.shared.description.user")"
+    id="user-share-select"
+    name="userShare"
+    class="single-user-picker js-default-user-picker aui-ss-select user-share-select"
+    data-container-class="long-field"
+    data-show-dropdown-button="true"
+    multiple="multiple"
+    style="display: none;">
+</select>

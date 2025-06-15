@@ -1,0 +1,1 @@
+define("jira/viewissue/init-subtask-time-logging",["jquery"],(function(i){"use strict";i(document).delegate("#tt_include_subtasks input","click",(function(){if(i(this).is(":checked")){i("#tt_info_single").hide();i("#tt_info_aggregate").show()}else{i("#tt_info_aggregate").hide();i("#tt_info_single").show()}}))}));

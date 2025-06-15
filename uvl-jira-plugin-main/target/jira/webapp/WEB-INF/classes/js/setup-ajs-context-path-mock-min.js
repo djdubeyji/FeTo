@@ -1,0 +1,1 @@
+!function(t){"use strict";var n=null;t((function(){n=t("meta[name='ajs-setup-context-path']").attr("content")}));function e(){return n||""}define("wrm/context-path",[],(function(){return e}));window.AJS||(window.AJS={});window.AJS.contextPath=e}(window.jQuery);

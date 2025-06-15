@@ -1,0 +1,56 @@
+body.a11y-setting-underlined-links {
+    a:not(.aui-button):not([type="button"]):not([role="button"]):not([role="menuitem"]):not([role="presentation"]):not(.aui-nav-item):not(.collapsed-comments):not(.lozenge):not(.aui-label):not(.splitview-issue-link),
+    .aui-button.aui-button-link,
+    .issue-drop-zone__button,
+    [role="link"],
+    .splitview-issue-link .issue-link-key,
+    a .sd-user-value {
+        text-decoration: underline;
+    }
+
+    /* .aui-header a - Example: Jira main navbar items: Dashboard, Projects, Issues, etc., doesn't include dropdown menu items */
+    /* .aui-dropdown a - Example: Dashboard panels -> three dots menu (...) in upper right-hand corner -> dropdown items */
+    /* .aui-dropdown2 a - Example: Jira main navbar -> dropdown menu items */
+    /* .menu-item a - Example: Issue activity -> tab items: All, Comments, Work log, etc. */
+    /* .aui-nav - Example: Administration -> System -> Sidebar items. Excludes e.g. Issue page -> breadcrumbs, Issue search -> pagination */
+    .aui-header a,
+    .aui-dropdown a,
+    .aui-dropdown2 a,
+    .menu-item a,
+    .aui-nav:not(.aui-nav-breadcrumbs):not(.aui-nav-pagination) a { // Example: Administration -> System -> Sidebar items. Excludes e.g. Issue page -> breadcrumbs, Issue search -> pagination
+        text-decoration: none !important;
+    }
+
+    a span.aui-badge {
+        display: inline-block; // Text decorations are not propagated to inline blocks (https://www.w3.org/TR/CSS2/text.html#lining-striking-props)
+    }
+}
+
+body.a11y-setting-text-spacing {
+    line-height: 1.5 !important;
+
+    * {
+        letter-spacing: 0.12em !important;
+        word-spacing: 0.16em !important;
+    }
+}
+
+body.a11y-setting-background-subtle-buttons {
+    .aui-button-subtle:not([aria-disabled="true"]):not(disabled):not(.active) {
+        --aui-btn-bg: var(--aui-button-default-bg-color);
+        --aui-btn-border: var(--aui-button-default-border-color, transparent);
+        --aui-btn-text: var(--aui-button-default-text-color);
+
+        &:hover,
+        &.focus-visible {
+            --aui-btn-bg: var(--aui-button-default-hover-bg-color);
+            --aui-btn-text: var(--aui-button-default-text-color);
+        }
+
+        &:not(.focus-visible):focus,
+        &:active {
+            --aui-btn-bg: var(--aui-button-default-active-bg-color);
+            --aui-btn-text: var(--aui-button-default-active-text-color);
+        }
+    }
+}

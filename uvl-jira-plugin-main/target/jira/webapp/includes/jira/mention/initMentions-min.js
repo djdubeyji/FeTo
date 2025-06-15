@@ -1,0 +1,1 @@
+require(["wrm/require-lazily","jira/util/logger"],(function(e,r){"use strict";e("wrc!jira.webresources:mentions-feature").then((function(){return require(["jira/mention/mention-element"])})).catch((function(e){r.error(e)}))}));

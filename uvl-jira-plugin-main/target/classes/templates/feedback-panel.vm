@@ -1,0 +1,221 @@
+#set($testFeedbackList = [
+    {"id": "1", "text": "I can't find any links to other apps.", "topic": "Better introduction to using smartVERNETZT"},
+    {"id": "2", "text": "Simplifying routes, but how?", "topic": "No topic, because it is not clear what is meant"},
+    {"id": "3", "text": "If you don't have basic IT skills or no one to show you how to use the tablet.", "topic": "Better introduction to using smartVERNETZT"},
+    {"id": "4", "text": "For people with no prior training in cell phone use", "topic": "Better introduction to using smartVERNETZT"},
+    {"id": "5", "text": "Personal telephone consultation, not by email", "topic": "No topic, because it is not clear what is meant"},
+    {"id": "6", "text": "As I have a lot of contact with Polish people, I would need the Polish alphabet. Otherwise writing takes too much time", "topic": "Explanation of the tablet keyboard functionality"},
+    {"id": "7", "text": "How many times have you asked the question and how do I get the punctuation on the tablet?", "topic": "Explanation of the tablet keyboard functionality"}
+])
+
+#set($uniqueTopics = [])
+#foreach($feedback in $testFeedbackList)
+    #if(!$uniqueTopics.contains($feedback.topic))
+        #set($void = $uniqueTopics.add($feedback.topic))
+    #end
+#end
+
+<div class="feedback-panel">
+    <div class="feedback-header">
+        <div class="feedback-title">FeReRe</div>
+        <div class="feedback-actions">
+            <button class="filter-button" onclick="toggleFilterMenu(event)">
+                <i class="fas fa-filter"></i>
+            </button>
+            <div class="filter-dropdown" style="display: none;">
+                <!-- [Filter dropdown HTML unchanged, use your original filter markup here] -->
+            </div>
+            <button class="search-button" onclick="openSearchDialog()">
+                <i class="fas fa-search"></i>
+            </button>
+            <button class="close-button" onclick="closeFeedbackPanel()">&times;</button>
+        </div>
+    </div>
+    <div class="feedback-list">
+        #if($uniqueTopics && $uniqueTopics.size() > 0)
+            #set($topicIndex = 0)
+            #foreach($topic in $uniqueTopics)
+                #set($topicId = "topic_$topicIndex")
+                <div class="feedback-topic" style="margin: 10px 0 4px 0; font-weight: bold; color: #2c3e50; font-size: 15px; cursor:pointer; display: flex; align-items:center;" onclick="toggleTopic('$topicId')">
+                    <span class="chevron" id="chevron_$topicId" style="margin-right: 8px; transition: transform 0.2s;"><i class="fas fa-chevron-down"></i></span>
+                    $topic
+                </div>
+                <div class="feedback-group" id="$topicId">
+                    <ol style="margin-left:22px;">
+                        #set($feedbackNumber = 1)
+                        #foreach($feedback in $testFeedbackList)
+                            #if($feedback.topic == $topic)
+                                <li class="feedback-item" style="margin-bottom:7px;">
+                                    <div class="feedback-item-content">
+                                        <p class="feedback-id" style="display: none;">ID: $feedback.id</p>
+                                        <span class="feedback-text">$feedback.text</span>
+                                    </div>
+                                </li>
+                                #set($feedbackNumber = $feedbackNumber + 1)
+                            #end
+                        #end
+                    </ol>
+                </div>
+                #set($topicIndex = $topicIndex + 1)
+            #end
+        #else
+            <p>No feedback available.</p>
+        #end
+    </div>
+    <div class="search-dialog" style="display:none;">
+        <div class="search-dialog-content">
+            <input type="text" class="feedback-search" placeholder="Search feedback..." onkeyup="handleSearch(event)" />
+            <button class="close-search-dialog" onclick="closeSearchDialog()">Close</button>
+        </div>
+        <div class="search-results" style="max-height: 200px; overflow-y: auto;">
+            <!-- Results will be dynamically populated here -->
+        </div>
+        <div class="no-results" style="display:none; text-align: center; margin-top: 10px;">No matches found</div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style type="text/css">
+    .feedback-group { margin-bottom: 10px; }
+    .feedback-group.collapsed { display: none; }
+    .feedback-topic .chevron { font-size: 14px; }
+    .feedback-topic.collapsed .chevron { }
+    .search-dialog {
+        position: fixed;
+        top: 15%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        background: #fff;
+        box-shadow: 0 2px 24px rgba(0,0,0,0.2);
+        border-radius: 8px;
+        padding: 18px 20px 15px 20px;
+        z-index: 1099;
+        width: 350px;
+        max-width: 90vw;
+    }
+    .search-dialog-content {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+    .feedback-search {
+        flex: 1;
+        padding: 7px 10px;
+        border-radius: 4px;
+        border: 1px solid #d3d3d3;
+        font-size: 14px;
+    }
+    .close-search-dialog {
+        background: #e0e0e0;
+        border: none;
+        border-radius: 3px;
+        padding: 6px 10px;
+        cursor: pointer;
+    }
+    .search-results {
+        font-size: 14px;
+    }
+</style>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        var groups = document.querySelectorAll('.feedback-group');
+        for (var i = 1; i < groups.length; i++) {
+            groups[i].classList.add('collapsed');
+            var chevron = document.getElementById('chevron_' + groups[i].id);
+            if (chevron) chevron.querySelector('i').classList.remove('fa-chevron-down');
+            if (chevron) chevron.querySelector('i').classList.add('fa-chevron-right');
+        }
+    });
+    function toggleTopic(id) {
+        var group = document.getElementById(id);
+        var chevron = document.getElementById('chevron_' + id);
+        if (group.classList.contains('collapsed')) {
+            group.classList.remove('collapsed');
+            if (chevron) {
+                chevron.querySelector('i').classList.remove('fa-chevron-right');
+                chevron.querySelector('i').classList.add('fa-chevron-down');
+            }
+        } else {
+            group.classList.add('collapsed');
+            if (chevron) {
+                chevron.querySelector('i').classList.remove('fa-chevron-down');
+                chevron.querySelector('i').classList.add('fa-chevron-right');
+            }
+        }
+    }
+
+    // Open/close search dialog
+    function openSearchDialog() {
+        document.querySelector('.search-dialog').style.display = 'block';
+        document.querySelector('.feedback-search').focus();
+    }
+    function closeSearchDialog() {
+        document.querySelector('.search-dialog').style.display = 'none';
+        document.querySelector('.feedback-search').value = '';
+        document.querySelector('.search-results').innerHTML = '';
+        document.querySelector('.no-results').style.display = "none";
+    }
+
+    // Dummy for filter button
+    function toggleFilterMenu(event) {
+        var dropdown = event.target.closest('.feedback-actions').querySelector('.filter-dropdown');
+        if (dropdown) {
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+    }
+    function closeFeedbackPanel() {
+        document.querySelector('.feedback-panel').style.display = 'none';
+    }
+
+    // Search functionality
+    var testFeedbackList = [
+        {"id": "1", "text": "I can't find any links to other apps.", "topic": "Better introduction to using smartVERNETZT"},
+        {"id": "2", "text": "Simplifying routes, but how?", "topic": "No topic, because it is not clear what is meant"},
+        {"id": "3", "text": "If you don't have basic IT skills or no one to show you how to use the tablet.", "topic": "Better introduction to using smartVERNETZT"},
+        {"id": "4", "text": "For people with no prior training in cell phone use", "topic": "Better introduction to using smartVERNETZT"},
+        {"id": "5", "text": "Personal telephone consultation, not by email", "topic": "No topic, because it is not clear what is meant"},
+        {"id": "6", "text": "As I have a lot of contact with Polish people, I would need the Polish alphabet. Otherwise writing takes too much time", "topic": "Explanation of the tablet keyboard functionality"},
+        {"id": "7", "text": "How many times have you asked the question and how do I get the punctuation on the tablet?", "topic": "Explanation of the tablet keyboard functionality"}
+    ];
+    function handleSearch(event) {
+        var query = event.target.value.trim().toLowerCase();
+        var resultsDiv = document.querySelector('.search-results');
+        var noResultsDiv = document.querySelector('.no-results');
+        resultsDiv.innerHTML = '';
+        if (query === '') {
+            noResultsDiv.style.display = "none";
+            return;
+        }
+        var filtered = testFeedbackList.filter(function(item) {
+            return item.text.toLowerCase().includes(query) || item.topic.toLowerCase().includes(query);
+        });
+        if (filtered.length === 0) {
+            noResultsDiv.style.display = "block";
+        } else {
+            noResultsDiv.style.display = "none";
+            // Group results by topic
+            var topics = {};
+            filtered.forEach(function(item) {
+                if (!topics[item.topic]) topics[item.topic] = [];
+                topics[item.topic].push(item.text);
+            });
+            for (var topic in topics) {
+                var topicElem = document.createElement('div');
+                topicElem.style.fontWeight = 'bold';
+                topicElem.style.marginTop = '10px';
+                topicElem.textContent = topic;
+                resultsDiv.appendChild(topicElem);
+
+                var list = document.createElement('ol');
+                list.style.marginLeft = '22px';
+                topics[topic].forEach(function(text) {
+                    var li = document.createElement('li');
+                    li.textContent = text;
+                    list.appendChild(li);
+                });
+                resultsDiv.appendChild(list);
+            }
+        }
+    }
+</script>

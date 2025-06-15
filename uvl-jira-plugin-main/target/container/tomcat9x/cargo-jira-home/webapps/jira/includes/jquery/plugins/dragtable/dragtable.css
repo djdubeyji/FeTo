@@ -1,0 +1,87 @@
+/*! THIS FILE HAS BEEN MODIFIED BY ATLASSIAN. Modified lines are marked below, search "Atlassian" */
+/*
+ * dragtable
+ *
+ * @Version 2.0.0
+ *
+ * default css
+ *
+ */
+/*##### the dragtable stuff #####*/
+.dragtable-sortable {
+    list-style-type: none;
+    margin: 0;
+    /*! BEGIN Modified by Atlassian */
+    padding: 0 0 0 2px;
+    /*! END Modified by Atlassian */
+    -moz-user-select: none;
+}
+
+.dragtable-sortable li {
+    margin: 0;
+    padding: 0;
+    float: left;
+    font-size: 1em;
+    /*! BEGIN Modified by Atlassian */
+    background: #fff;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    /*! END Modified by Atlassian */
+}
+
+.dragtable-sortable th,
+.dragtable-sortable td {
+    border-left: none;
+}
+
+/*! BEGIN Modified by Atlassian */
+.dragtable-sortable .issue-table {
+    margin: 0;
+}
+
+.dragtable-sortable + #issuetable > tbody {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.dragtable-sortable .issue-table > thead > tr > th:first-child {
+    border-left: none;
+}
+
+.list-view .ui-sortable-helper {
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+
+.list-view .ui-sortable-placeholder {
+    border: 2px dashed #14892c;
+    visibility: visible !important;
+}
+
+.list-view .ui-sortable-placeholder * {
+    opacity: 0.0;
+    visibility: hidden;
+}
+
+.list-view .ui-sortable-handle th {
+    box-sizing: border-box;
+}
+
+.list-view .ui-sortable-handle {
+    position: relative;
+    z-index: 1;
+}
+
+.list-view .ui-sortable-handle:not(:first-child) > .issue-table > thead > tr > th {
+    padding: 10px;
+}
+
+.list-view .ui-sortable-placeholder {
+    border-color: #00875A;
+    height: 37px;
+}
+
+.list-view .dragtable-sortable ~ #issuetable > thead {
+    visibility: hidden;
+}
+/*! END Modified by Atlassian */
