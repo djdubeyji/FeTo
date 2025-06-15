@@ -96,13 +96,13 @@ jobs:
         echo '  make release'
         exit 1
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
-      with:
+   - name: Perform CodeQL Analysis
+     uses: github/codeql-action/analyze@v3
+     with:
         category: "/language:${{matrix.language}}"
-        output: codeql-${{ matrix.language }}.sarif
-    - name: Upload SARIF report
-      uses: actions/upload-artifact@v4
-      with:
-        name: codeql-results-${{ matrix.language }}
-        path: codeql-${{ matrix.language }}.sarif
+
+   - name: Upload CodeQL SARIF results
+     uses: actions/upload-artifact@v4
+     with:
+      name: codeql-sarif-${{ matrix.language }}
+      path: /home/runner/work/_temp/codeql_databases/${{ matrix.language }}/results/*.sarif
